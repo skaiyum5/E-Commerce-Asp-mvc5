@@ -1,0 +1,158 @@
+﻿@model SizeListingModel
+
+
+<div class="row">
+    <div class="col col-lg-12">
+
+        @if (Model != null && Model.Sizes != null && Model.Sizes.Count() > 0)
+        {
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="thead-active text-center">
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var size in Model.Sizes)
+                                {
+
+                                    <tr class="success text-center">
+                                        <td>@size.Name</td>
+                                        <td>@size.Description</td>
+                                        <td class="embed-responsive-item" style="width:210px">
+                                            <button class="modalShow btn btn-gradient-primary float-lg-left fa m-1" data-href="@Url.Action("Action", "Size" ,new { ID=size.ID,SearchTerm=Model.SearchTerm,pageNo=Model.Pager.CurrentPage})" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o mr-1"></i>Edit</button>
+                                            <button class="deleteSize btn btn-gradient-danger float-lg-left fa m-1" data-href="@Url.Action("Delete", "Size" ,new { ID=size.ID})"><i class="fa fa-trash-o mr-1"></i>Delete</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                Sorry! NO records exist.
+            </div>
+        }
+
+        @if (Model.Pager!=null && Model.Pager.EndPage>1)
+        {
+            <nav class="pagination-wrap justify-content-center mt-30" aria-label="Page navigation example">
+                <ul class="pagination custom-pagination pagination-rounded pagination-filled">
+                    @if (Model.Pager.StartPage!=Model.Pager.CurrentPage)
+                    {
+                        <li class="page-item"><button class="page-link" href="@Url.Action("ListingView","Size",new {searchTerm=Model.SearchTerm,pageNo=Model.Pager.StartPage})">First</button></li>
+                        <li class="page-item"><button class="page-link" href="@Url.Action("ListingView","Size",new {searchTerm=Model.SearchTerm,pageNo=(Model.Pager.CurrentPage-1)})">Previous</button></li>
+                    }
+                    @for (int page = Model.Pager.StartPage; page <= Model.Pager.EndPage; page++)
+                    {
+                         var active=Model.Pager.CurrentPage==page?"active disabled":string.Empty;
+                        <li class="page-item @active"><button class="page-link" href="@Url.Action("ListingView","Size",new {searchTerm=Model.SearchTerm,pageNo=page})">@page</button></li>
+                    }
+                    @if (Model.Pager.EndPage!=Model.Pager.CurrentPage)
+                    {
+                        <li class="page-item"><button class="page-link" href="@Url.Action("ListingView", "Size" ,new {searchTerm=Model.SearchTerm,pageNo=(Model.Pager.CurrentPage+1)})">Next</button></li>
+                        <li class="page-item"><button class="page-link" href="@Url.Action("ListingView","Size",new {searchTerm=Model.SearchTerm,pageNo=Model.Pager.EndPage})">Last</button></li>
+                    }
+                </ul>
+            </nav>
+        }
+    </div>
+
+</div>
+<script>
+    $('.page-link').click(function () {
+            var url = $(this).attr('href');
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    success: function (response) {
+                    $("#table").html("");
+                    $("#table").html(response);
+                    }
+                    
+                });
+            });
+
+    $('.deleteSize').click(function (e) {
+        swal({
+            icon : "warning",
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: 'No, cancel !',
+                    className: 'btn btn-gradient-secondary'
+                },
+                confirm: {
+                    text: 'Yes, delete it !',
+                    className: 'btn btn-gradient-primary'
+                }
+            }
+        }).then((willDelete) => {
+            if (willDelete) {
+            var href = $(this).attr('data-href');
+            $.ajax({
+                url: href,
+                type: "post",
+                success: function (response) {
+                    if (response) {
+                        swal("Success!","Your imaginary file has been deleted",
+                            {
+                                icon: "success",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-gradient-success'
+                                    }
+                                }
+                            }).then((Delete) => {
+						        if (Delete) {
+                                    $("#table").html("");
+                                    $("#table").html(response);
+                                //location.reload();
+                                @*window.location.href = '@Url.Action("Index","Product")';*@
+						        } else {
+							        swal.close();
+						        }
+					});
+                    } else {
+                        $("#errorMessage").html(response.Message);
+                    }
+                }
+            });
+            } else {
+                swal("Your imaginary file is safe!", {
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-gradient-success'
+                        }
+                    }
+                });
+            }
+        });
+    })
+
+    $(".modalShow").click(function () {
+        $.ajax({
+            url: $(this).attr("data-href")
+
+        }).done(function (response) {
+            $("#myModal .modal-dialog").html(response);
+        }).fail(function (XHLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+
+    
+</script>

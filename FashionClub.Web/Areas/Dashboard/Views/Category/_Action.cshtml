@@ -1,0 +1,114 @@
+﻿@model  CategoryActionModel
+
+@if (Model != null)
+{
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel">
+                @if (Model.ID > 0)
+                {
+                    <span>Edit Parent Category</span>
+                }
+                else
+                {
+                    <span>Create Parent Category</span>
+                }
+            </h4>
+
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="px-3">
+
+                <form id="actionForm">
+                    <input type="hidden" name="ID" value="@Model.ID" />
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" id="name" name="Name" required="" class=" form-control " placeholder="Name" value="@Model.Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" class="form-control" name="Description" placeholder="Category Descriptio">@Model.Description</textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="file" id="picture" accept="" class="form-control" style="padding: .2rem .75rem;" />
+                    </div>
+                    <div id="picArea" class="form-group">
+                        @if (Model.PictureID > 0 && Model.PictureID != null)
+                        {
+                            <img src="/images/@Model.Picture.Url" class="img-thumbnail"> 
+                            <input type="hidden" name="PictureID" value="@Model.PictureID">
+                        }
+                    </div>
+                    <div class="row">
+                        <label class="mt-2 col-form-label col-sm-5 col-sm-offset-5 pt-0 input__label">Publication Status:</label>
+                        <div class="col-sm-6">
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" type="radio" name="PublicationStatus" id="Active"
+                                       value="true" @(Model.PublicationStatus == true ? "checked" : string.Empty)>
+                                <label class="custom-control-label" for="Active">Active</label>
+
+                            </div>
+                            <div class="custom-control custom-radio">
+                                <input class="custom-control-input" type="radio" name="PublicationStatus" id="Deactive"
+                                       value="false" @(Model.PublicationStatus == false ? "checked" : string.Empty)>
+                                <label class="custom-control-label" for="Deactive">
+                                    Deactive
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="errorMessage"></div>
+        <div class="modal-footer">
+            <button type="button" id="saveBtn" class="btn btn-primary"><i class="fa fa-save mr-1"></i>Save</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="fa fa-times mr-1"></i>Close</button>
+        </div>
+    </div>
+}
+
+<script>
+    $('#picture').change(function () {
+        var picture = this.files;
+        var picdata = new FormData();
+        picdata.append('picture',picture[0]);
+
+        $.ajax({
+            url: '@Url.Action("UploadPictures","Shared",new { area=""})',
+            type: 'POST',
+            data: picdata,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.Success) {
+                    $picture = response.pictureList[0];
+                    $('#picArea').html(' ');
+                    $('#picArea').append('<img src="/images/'+ $picture.Url+ '"class="img-thumbnail"> <input type="hidden" name="PictureID" value="'+$picture.ID+'">')
+               }
+            }
+        });
+    });
+
+    $("#saveBtn").click(function () {
+        $.ajax({
+            url: '@Url.Action("Action","Category")',
+            type: "post",
+            data: $("#actionForm").serialize(),
+            beforeSend: function () {
+                $("#myModal").modal("hide");
+            },
+            success: function (response) {
+                $("#table").html("");
+                $("#table").html(response);
+            }
+
+        });
+    });
+</script>
+

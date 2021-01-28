@@ -1,0 +1,450 @@
+﻿@model ProductActionModel
+@{
+    ViewBag.Title = "Create";
+}
+<script src="~/Areas/Dashboard/Content/ckeditor/ckeditor.js"></script>
+
+<!-- bootstrap-select-->
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<style>
+    button:hover, a:hover, button:focus {
+        -webkit-transform: translateY(-3px) !important;
+        transform: translateY(-3px) !important;
+        transition: all 0.3s ease-in-out !important;
+        /*transition: all 0.3s ease-out;*/
+        -webkit-transition: all 0.3s ease-in-out;
+        /*-webkit-transition: all 0.3s ease-out;*/
+    }
+
+    button, a {
+        transition: .2s ease-out !important;
+        /*transition: all 0.3s ease-out;
+       -webkit-transition: all 0.3s ease-out;*/
+    }
+</style>
+<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">
+            <div class="btn-group dropdown">
+                <a href="" data-display="static" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Product
+                </a>
+                <div class="dropdown-menu" data-dropdown-in="rollIn" data-dropdown-out="rollOut">
+                    <a class="dropdown-item" href="@Url.Action("Index","Product")">Index</a>
+                    <a class="dropdown-item disabled" href="#">Create</a>
+                </div>
+            </div>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Create</li>
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+<div class="container">
+    <div class="hk-pg-header">
+        <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="plus-square"></i></span></span> Create Product</h4>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <section class="hk-sec-wrapper">
+                <div class="row">
+                    <div class="col-sm">
+                        <form method="Post" id="hi" action="@Url.Action("Create","Product")">
+                            @Html.AntiForgeryToken()
+                            <div class="form-group row">
+                                <label for="CategoryID" class="col-sm-2 col-form-label">Parent Category</label>
+                                <div class="col-sm-10">
+                                    @*@Html.DropDownListFor(c => c.CategoryIDs, Model.Categories, new { @class = "form-control selectpicker", @title = "-- Select Parent Category --" })*@
+                                    @Html.ListBoxFor(x => x.CategoryIDs, new MultiSelectList(Model.Categories, "ID", "Name"), htmlAttributes: new { name = "CategoryIDs", title = "-- Select Product Category --", id = "CategoryIDs", @class = "form-control listbox selectpicker", multiple = "multiple" })
+
+                                    @*<select required id="ParentCategory" name="CategoryID" title="-- Select Parent Category --" class="form-control selectpicker">
+                                            @foreach (var category in Model.Categories)
+                                            {
+                                        data-feather="file-plus"
+                                                <option value="@category.ID">@category.Name</option>
+                                            }
+
+                                        </select>*@
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="SubCategory" class="col-sm-2 col-form-label">Child Category</label>
+                                <div id="selects" class="col-sm-10">
+                                    <select required id="SubCategory" class="form-control selectpicker" name="SubCategoryIDs" title="-- Select Child Category --" multiple>
+                                        <option value="" disabled> First Select Parent Category </option>
+                                    </select>
+                                    @*@Html.DropDownListFor(model => model.SubCategories, Model.SubCategories, htmlAttributes: new { @title = "-- Select Child Category --", @class = "form-control selectpicker", @id = "SubCategory" })*@
+                                    @*@Html.ListBoxFor(x => x.SubCategoryIDs, new MultiSelectList(Model.SubCategories, "ID", "Name"), htmlAttributes: new { name = "SubCategoryIDs", title = "-- Select Child Category --", id = "SubCategory", @class = "form-control listbox selectpicker", multiple = "multiple" })*@
+
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="Name" class="col-sm-2 col-form-label">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control filled-input" id="Name" name="Name" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Price" class="col-sm-2 col-form-label">Price</label>
+
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend m-0">
+                                            <div class="input-group-text" style="border:none">$</div>
+                                        </div>
+                                        <input type="text" class="form-control filled-input" id="Price" name="Price" placeholder="Price">
+                                    </div>
+                                </div>
+
+                                @*<div class="col-sm-10">
+                                        <input type="text" class="form-control" id="Price" name="Price" placeholder="Price">
+                                    </div>*@
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="DiscountPercentage" class="col-sm-2 col-form-label">Discount</label>
+
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control filled-input" id="DiscountPercentage" name="DiscountPercentage" placeholder="Discount Percentage">
+                                        <div class="input-group-prepend m-0">
+                                            <div class="input-group-text" style="border:none">%</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="afterDiscountPrice" class="col-sm-2 col-form-label">Discount Price</label>
+
+                                <div class="col-sm-10">
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend m-0">
+                                            <div class="input-group-text" style="border:none">$</div>
+                                        </div>
+                                        <input type="text" class="form-control filled-input" id="afterDiscountPrice" name="AfterDiscountPrice" placeholder="After Discount Price">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class=" form-group row">
+                                <label for="Quantity" class="col-sm-2 col-form-label">Quantity</label>
+                                <div class="col-sm-10">
+                                    <input type="text" class="form-control filled-input" id="Quantity" name="Quantity" placeholder="Quantity">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Brand" class="col-sm-2 col-form-label">Brand</label>
+                                <div class="col-sm-10">
+                                    <select id="Brand" name="BrandID" title="-- Select Product Brand --" class="form-control selectpicker">
+
+                                        @foreach (var brand in Model.Brands)
+                                        {
+                                            <option value="@brand.ID">@brand.Name</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Size" class="col-sm-2 col-form-label">Sizes</label>
+                                <div class="col-sm-10">
+
+                                    @Html.ListBoxFor(x => x.SizeIDs, new MultiSelectList(Model.Sizes, "ID", "Name"), htmlAttributes: new { name = "SizeIDs", title = "-- Select Product Sizes --", id = "Size", @class = "form-control listbox selectpicker", multiple = "multiple" })
+
+                                    @*<select id="Sizes" name="Sizes" class="form-control selectpicker" title="-- Select Product Sizes --" data-actions-box="true" data-live-search="true" multiple>
+                                            @foreach (var size in Model.Sizes)
+                                            {
+                                                <option value="@size.ID">@size.Name</option>
+                                            }
+                                        </select>*@
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Summary" class="col-sm-2 col-form-label">Summary </label>
+                                <div class="col-sm-10">
+                                    <textarea type="" class="form-control filled-input" id="Summary" name="Summary" placeholder="Summary"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Description" class="col-sm-2 col-form-label">Description </label>
+                                <div class="col-sm-10">
+                                    @*@Html.TextAreaFor(x=>x.Description,new { @id="Description",@class = "form-control"})*@
+                                    <textarea type="" class="form-control" id="Description" name="Description" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Pictures" class="col-sm-2 col-form-label">Select Pictures</label>
+                                <div class="col-sm-10 col-md-10">
+                                    <div class="form-control filled-input">
+                                        <input type="file" id="Pictures" class="" multiple />
+                                        <label for="Pictures">( Thumbnail Image must be 312×400 )</label>
+                                    </div>
+                                    <input type="hidden" id="pictureIds" name="PictureIds" value=" " />
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="Pictures" class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div id="owl_demo_9" class="owl-carousel owl-theme">
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="chkbox_horizontal" class="col-form-label col-sm-2 pt-0"></label>
+                                <div class="col-sm-10">
+                                    <div class="custom-control custom-checkbox mb-15">
+                                        <input class="custom-control-input" name="Featured" value="true" id="chkbox_horizontal" type="checkbox">
+                                        <label class="custom-control-label" for="chkbox_horizontal">Featured</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group row mb-0">
+                                <label class="col-sm-2 col-form-label"></label>
+                                <div class="col-sm-10">
+                                    <button id="savebtn" type="submit" class="btn btn-gradient-primary mr-1"><i class="fa fa-save"></i> Save</button>
+                                    <a class="btn btn-gradient-secondary" href=""><i class="fa fa-angle-double-left"></i> Cancel</a>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+<div id="pictureTemplate" style="display:none;">
+    <div class="item">
+        <div class="card">
+            <span class="image-clear__icon removeImg">×</span>
+            <img class="card-img-top image" data-id="" src="" alt="Card image cap">
+            <div class="card-body">
+                <div class="custom-control custom-radio radio-teal">
+                    <input id="" value="" name="Thumbnail" class="input custom-control-input" type="radio">
+                    <label for="" class="label custom-control-label">Set as Thumbnail Image</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Areas/Dashboard/Content/vendors/owl.carousel/dist/owl.carousel.min.js"></script>
+@*<script src="~/Areas/Dashboard/Co ntent/dist/js/owl-data.js"></script>*@
+
+<script>
+    $(document).ready(function () {
+        CKEDITOR.replace("Description", {
+            height: 150
+
+        });
+        CKEDITOR.config.uiColor = "#95C3CF";
+
+    });
+
+    function removeMe() {
+        $('.removeImg').click(function () {
+            $(this).parent().parent().parent().remove();
+
+            $('#owl_demo_9').owlCarousel('destroy');
+            $('#owl_demo_9').owlCarousel({ touchDrag: false, mouseDrag: false });
+            owlCarousel();
+            forChecked();
+        });
+    }
+    //$('#owl_demo_9').find('input[type=radio]:first').attr('checked', true);
+    function forChecked() {
+        $('#owl_demo_9').find('input[type=radio]:first').attr('checked', true);
+    }
+    function owlCarousel() {
+        $('#owl_demo_9').owlCarousel({
+            margin: 10,
+            //loop: true,
+            //autoplay: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+
+            }
+        });
+
+    }
+
+</script>
+<script>
+
+    $('#savebtn').click(function () {
+        var picIds = [];
+        $('#owl_demo_9 img').each(function () {
+            var picId = $(this).attr("data-id");
+            picIds.push(picId);
+        });
+        $('#pictureIds').val(picIds.join());
+    });
+</script>
+<script>
+    $('#Pictures').change(function () {
+       var area= $('#owl_demo_9');
+        var pictures = this.files;
+        var picsData = new FormData();
+        for (var i = 0; i < pictures.length; i++) {
+            picsData.append("picture", pictures[i]);
+        }
+
+        $.ajax({
+            url:'@Url.Action("UploadPictures","Shared",new { area=""})',
+            //url: '/Shared/UploadPictures',
+            type: 'POST',
+            data:picsData,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.Success) {
+                    //var checkId = 0;
+                    for (var i = 0; i < response.pictureList.length; i++) {
+                        $picture = response.pictureList[i];
+                        $pictureHtml = $('#pictureTemplate').clone();
+
+                        $pictureHtml.find('.image').attr('src','/images/' + $picture.Url);
+                        $pictureHtml.find('.image').attr('data-id', $picture.ID);
+                        $pictureHtml.find('.input').attr('value', $picture.ID);
+
+                        $pictureHtml.find('.input').attr('id','thumbnail'+$picture.ID);
+                        $pictureHtml.find('.label').attr('for', 'thumbnail' + $picture.ID);
+
+
+                        //if (i == 0) {
+                        //    checkId = '#thumbnail' + $picture.ID;
+                        //}
+
+                        area.append($pictureHtml.html());
+                    }
+                    area.owlCarousel('destroy');
+                    area.owlCarousel({touchDrag:false,mouseDrag:false});
+                    owlCarousel();
+                    //$(checkId).prop('checked', true);
+                    forChecked();
+                    removeMe();
+                }
+            }
+
+
+        });
+    });
+</script>
+<script>
+
+     $(function () {
+
+         $("#CategoryIDs").change(function () {
+            
+            var value = $(this).val();
+            var regionsSelect = $('#SubCategory');
+
+             if (value.length!=0 && value!='') {
+
+                var url = '@Url.Action("SubCategory","Product")';// + '?ID=' + v;
+                $.getJSON(url, $.param({ Ids: value  },true), function (data) {
+                    if (data!=null && data!= '') {
+                         regionsSelect.html('');
+                         $.each(data, function (index, region) {
+                             regionsSelect.append($('<option/>', {
+                                 value: region.Value,
+                                 text: region.Text
+                             }));
+                         });
+                        $('#SubCategory').selectpicker('refresh');
+                    } else {
+                        regionsSelect.html('');
+                        regionsSelect.selectpicker('refresh');
+                         swal("Didn't Child Category!", "Please Add Child Category", {
+						    icon : "error",
+						    buttons: {
+							    confirm: {
+								    className : 'btn btn-danger'
+							    }
+						    },
+					    });
+                    }
+            });
+
+             } else {
+                 regionsSelect.html('');
+                 regionsSelect.append('<option value="" disabled> First Select Parent Category </option>');
+                 regionsSelect.selectpicker('refresh');
+             }
+        });
+      });
+
+
+
+
+
+    @*$(function () {
+
+        $("#CategoryID").change(function () {
+        debugger;
+            var v = $(this).val();
+            var regionsSelect = $('#selects');
+            var url = '@Url.Action("Cat")' + '?ID=' + v;
+        //var url = $("#SubCategoryID").data("url") + '?u=' + v;
+        //var $fac= $("#SubCategoryID");
+            $.getJSON(url, function (data) {
+                regionsSelect.html('');
+                var lode = "";
+                $.each(data, function (index, region) {
+                   lode +='<option value="' + region.Value + '">' + region.Text + '<option/>'
+            });
+            regionsSelect.html('<select required id="Region" class="form-control" name="CategoryID" title="-- Select Parent Category --">'+lode+'</select>');
+            });
+        });
+    });*@
+
+
+
+    @*$(document).ready(function () {
+        $('#ParentCategory').change(function () {
+            debugger;
+            var categoryID = $(this).val();
+            $.ajax({
+                type:'GET',
+                url: '@Url.Action("SubCategory", "Product")',
+                dataType: 'json',
+                cache:false,
+                //data: {ID:categoryID},
+                success: function (res) {
+                    alert(res);
+                }
+
+            })
+        //        .done(function (response) {
+        //        debugger;
+        //        $('#Category').html(" ");
+        //            $each(category.SubCategory, function (i, response) {
+        //                $('#Category').append();
+        //            })
+        //}).fail(function (XHLHttpRequest, textStatus, errorThrown) {
+        //    alert("FAIL");
+        //});
+        });
+    //});*@
+
+</script>

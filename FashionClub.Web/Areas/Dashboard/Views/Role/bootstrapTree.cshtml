@@ -1,0 +1,411 @@
+﻿<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">Role</li>
+        <li class="breadcrumb-item active" aria-current="page">Index</li>
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+<div class="container">
+    <div class="hk-pg-header">
+        <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="shield"></i></span></span>Roles</h4>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card_border p-lg-5 p-3 mb-4">
+                <div class="card-body py-3 p-0">
+                    <div class="row">
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+
+                            <div class="card-body">
+                                <form class="form-horizontal form-material">
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" id="inputName" placeholder="Name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputDescription" class="col-sm-2 col-form-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" id="inputDescription" placeholder="Description"></textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Access List</label>
+                                        <div class="col-sm-10 pl-40 pt-20">
+
+                                            <ul class="navbar-nav flex-column">
+                                                <li class="nav-item">
+
+                                                    <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#action">
+
+                                                        <span class="nav-link-text">Brand</span>
+                                                    </a>
+                                                    <ul id="action" class="nav pl-30 flex-column collapse collapse-level-1">
+                                                        <li class="nav-item">
+                                                            <ul class="nav flex-column">
+                                                                <li class="nav-item">
+                                                                    <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                                        <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case" value="false">
+                                                                        <label class="custom-control-label nav-link-text" for="chk-ignore-case">Ignore Case</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                                        <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case1" value="false">
+                                                                        <label class="custom-control-label nav-link-text" for="chk-ignore-case1">Ignore Case</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                                        <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case2" value="false">
+                                                                        <label class="custom-control-label nav-link-text" for="chk-ignore-case2">Ignore Case</label>
+                                                                    </div>
+                                                                </li>
+
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                            <ul class="navbar-nav flex-column">
+                                                <li class="nav-item">
+                                                    <a class="nav-link" href="javascript:void(0);" data-toggle="collapse" data-target="#action2">
+
+                                                        <span class="nav-link-text">Category</span>
+                                                    </a>
+                                                    <ul id="action2" class="nav pl-30 flex-column collapse collapse-level-1">
+                                                        <li class="nav-item">
+                                                            <ul class="nav flex-column">
+                                                                <li class="nav-item">
+                                                                    <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                                        <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case3" value="false">
+                                                                        <label class="custom-control-label nav-link-text" for="chk-ignore-case3">Ignore Case</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                                        <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case4" value="false">
+                                                                        <label class="custom-control-label nav-link-text" for="chk-ignore-case4">Ignore Case</label>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                                        <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case23" value="false">
+                                                                        <label class="custom-control-label nav-link-text" for="chk-ignore-case23">Ignore Case</label>
+                                                                    </div>
+                                                                </li>
+
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-10 text-right">
+                                            <button class="btn btn-success"><i class="glyphicon glyphicon-edit mr-2"></i>Update</button>
+                                            <button class="btn btn-danger"><i class="glyphicon glyphicon-trash mr-2"></i>Delete</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+                        <div class="card-body">
+                            <div class="row">
+
+                                @*<div class="col-sm-4">
+                                        <h2>Input</h2>
+                                        <!-- <form> -->
+                                        <div class="form-group">
+                                            <label for="input-search" class="sr-only">Search Tree:</label>
+                                            <input type="input" class="form-control" id="input-search" placeholder="Type to search..." value="">
+                                        </div>
+
+
+                                        <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                            <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case" value="false">
+                                            <label class="custom-control-label" for="chk-ignore-case">Ignore Case</label>
+                                        </div>
+                                        <div class="checkbox checkbox-info">
+                                            <input type="checkbox" class="checkbox" id="chk-exact-match" value="false">
+                                            <label for="chk-exact-match">Exact Match</label>
+                                        </div>
+                                        <div class="checkbox checkbox-info">
+                                            <input type="checkbox" class="checkbox" id="chk-reveal-results" value="false">
+                                            <label for="chk-reveal-results">Reveal Results</label>
+                                        </div>
+                                        <button type="button" class="btn btn-success" id="btn-search">Search</button>
+                                        <button type="button" class="btn btn-default" id="btn-clear-search">Clear</button>
+                                        <!-- </form> -->
+                                    </div>
+                                    <div class="col-sm-8">
+
+
+                                        <div class="row mb-20">
+                                            <div class="col-sm">
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs" role="tablist">
+                                                    <li class="nav-item">
+                                                        <a class="nav-link active" data-toggle="tab" href="#home">Home</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#menu1">Menu 1</a>
+                                                    </li>
+                                                    <li class="nav-item">
+                                                        <a class="nav-link" data-toggle="tab" href="#menu2">Menu 2</a>
+                                                    </li>
+
+                                                </ul>
+
+                                                <!-- Tab panes -->
+                                                <div class="tab-content">
+                                                    <div id="home" class="container text-center tab-pane active">
+                                                        <br>
+
+                                                        <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                            <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case" value="false">
+                                                            <label class="custom-control-label" for="chk-ignore-case">Ignore Case</label>
+                                                        </div>
+                                                        <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                            <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case" value="false">
+                                                            <label class="custom-control-label" for="chk-ignore-case">Ignore Case</label>
+                                                        </div>
+                                                        <div class="checkbox checkbox-info custom-control custom-checkbox mb-15">
+                                                            <input type="checkbox" class="custom-control-input checkbox" id="chk-ignore-case" value="false">
+                                                            <label class="custom-control-label" for="chk-ignore-case">Ignore Case</label>
+                                                        </div>
+                                                    </div>
+                                                    <div id="menu1" class="container tab-pane fade">
+                                                        <br>
+                                                        <h6>Menu 1</h6>
+                                                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                                                    </div>
+                                                    <div id="menu2" class="container tab-pane fade">
+                                                        <br>
+                                                        <h6>Menu 2</h6>
+                                                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>*@
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+@model RoleActionModel
+
+@*<script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Areas/Dashboard/Content/vendors/jquery/dist/jquery.min.js"></script>*@
+<script src="~/Areas/Dashboard/Content/Checktree-master/js/jquery-1.11.1.min.js"></script>
+<script src="~/Areas/Dashboard/Content/Checktree-master/js/checktree.js"></script>
+<link href="~/Areas/Dashboard/Content/Checktree-master/css/styles.css" rel="stylesheet" />
+<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">Role</li>
+        @if (string.IsNullOrEmpty(Model.ID))
+        {
+            <li class="breadcrumb-item active" aria-current="page">Create</li>
+        }
+        else
+        {
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        }
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+<div class="container">
+    @*<div class="hk-pg-header">
+            <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="shield"></i></span></span>Roles</h4>
+        </div>*@
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card_border p-lg-5 p-3 mb-4">
+                <div class="card-body py-3 p-0">
+                    @if (!string.IsNullOrEmpty(Model.ID))
+                    {
+                        <h3 class="block__title mb-lg-4 text-center">Edit Role</h3>
+                    }
+                    else
+                    {
+                        <h3 class="block__title mb-lg-4 text-center">Create Role</h3>
+                    }
+
+                    <div class="row">
+
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+
+                            <div class="card-body">
+                                <form method="post" action="@Url.Action("Action","Role")" class="form-horizontal form-material">
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" value="@Model.Name" name="Name" id="inputName" placeholder="Name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputDescription" class="col-sm-2 col-form-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" name="Description" id="inputDescription" placeholder="Description">@Model.Description</textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label pt-40">Access List</label>
+                                        @if (Model.RouteInfos != null && Model.RouteInfos.Count() > 0)
+                                        {
+                                            <div class="col-sm-10 pt-30">
+
+                                                <ul class="checktree">
+                                                    @{
+                                                        var i = 1;
+                                                        var j = 1;
+                                                    }
+                                                    @foreach (var aArea in Model.Areas)
+                                                    {
+                                                        var area = !string.IsNullOrEmpty(aArea) ? aArea : "Web";
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="collapse" data-target="#area-@i"><i class="ion ion-md-arrow-dropdown"></i></a>
+                                                            <input id="@area" type="checkbox" /><label for="@area">@area</label>
+                                                            <ul id="area-@i" class="collapse">
+                                                                @foreach (var controller in Model.RouteInfos.Where(x => x.Area == aArea.ToString()).Select(y => y.Controller).Distinct())
+                                                                {
+                                                                    <li>
+                                                                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#controller-@j"><i class="ion ion-md-arrow-dropdown"></i></a>
+
+                                                                        <input id="controller_@controller-@i" type="checkbox" /><label for="controller_@controller-@i">@controller</label>
+                                                                        <ul id="controller-@j" class="collapse">
+                                                                            @foreach (var action in Model.RouteInfos.Where(x => x.Controller == controller.ToString() && x.Area == aArea.ToString()))
+                                                                            {
+                                                                                var check = "";
+                                                                                if (Model.FashionClubRoleRoutes != null && Model.FashionClubRoleRoutes.Count() > 0)
+                                                                                {
+                                                                                    check = Model.FashionClubRoleRoutes.Any(x => action.ID == x.RouteInfoID) ? "checked" : string.Empty;
+
+                                                                                }
+
+                                                                                <li>
+                                                                                    <input @check name="Selected" class="checktrees" value="@action.ID" id="@action.Action-@action.ID" type="checkbox" />
+                                                                                    <label for="@action.Action-@action.ID">@action.Action <span class="badge badge-success">@action.Attributes</span></label>
+                                                                                </li>
+                                                                            }
+
+                                                                        </ul>
+                                                                    </li>
+                                                                    j++;
+                                                                }
+
+                                                            </ul>
+                                                        </li>
+                                                        i++;
+                                                    }
+
+                                                </ul>
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-sm-10 pt-30">
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="alert alert-info text-center" role="alert">
+                                                            Access List Not Available !
+                                                        </div>
+                                                        <button type="button" id="setRoutes" class="btn btn-info btn-block mb-15">Set Access List</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 pr-40 text-right">
+                                            @if (Model.ID != null && Model.ID.Count() > 0)
+                                            {
+                                                <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-edit mr-2"></i>Update</button>
+
+                                                <a href="@Url.Action("Delete","Product",new { Id = Model.ID } )" class="deleteProduct show btn btn-gradient-danger"><i class="glyphicon glyphicon-trash mr-1"></i>Delete</a>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-info"><i class="fa fa-plus mr-1"></i>Create</button>
+                                                <a class="btn btn-secondary" href="@Url.Action("Index","Role")"><i class="icon-arrow-left-circle mr-2"></i>Cancle</a>
+
+                                            }
+
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script>
+    $(function () {
+        $("ul.checktree").checktree();
+
+
+    });
+
+
+    $('#setRoutes').click(function () {
+        $.ajax({
+            url:'@Url.Action("SetRoutes","Role")'
+
+        }).done(function (response) {
+            debugger;
+            swal(""+response.Data.Success, " ", {
+						icon : "info",
+						buttons: false,
+                        timer: 2000,
+            }).then((yes) => { location.reload() });
+
+
+        }).fail(function (XHLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+</script>
+
+

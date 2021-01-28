@@ -1,0 +1,514 @@
+﻿@model ProductActionModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<!-- bootstrap-select-->
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<!-- /bootstrap-select-->
+<script src="~/Areas/Dashboard/Content/ckeditor/ckeditor.js"></script>
+
+<script src="~/Areas/Dashboard/Content/vendors/owl.carousel/dist/owl.carousel.min.js"></script>
+@*<script src="~/Areas/Dashboard/Content/dist/js/owl-data.js"></script>*@
+
+<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">
+            <div class="btn-group dropdown">
+                <a href="" data-display="static" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Product
+                </a>
+                <div class="dropdown-menu" data-dropdown-in="rollIn" data-dropdown-out="rollOut">
+                    <a class="dropdown-item" href="@Url.Action("Index","Product")">Index</a>
+                    <a class="dropdown-item" href="@Url.Action("Create","Product")">Create</a>
+                    <a class="dropdown-item disabled" href="#">Edit</a>
+                </div>
+            </div>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Edit</li>
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+<div class="container">
+    <div class="hk-pg-header">
+        <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="edit-3"></i></span></span>Edit Product</h4>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <section class="hk-sec-wrapper">
+                <div class="row">
+                    <div class="col-sm">
+                        <form id="actionForm">
+                            @*@using (Html.BeginForm())
+                                {*@
+                            @Html.AntiForgeryToken()
+
+                            <div class="form-horizontal">
+
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                                @Html.HiddenFor(model => model.ID)
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Categories, "Parent Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("CategoryIDs", (IEnumerable<SelectListItem>)ViewBag.Categories, htmlAttributes: new { @class = "form-control selectpicker",title = "-- Select Product Category --", multiple = "multiple" })
+                                        @Html.ValidationMessageFor(model => model.Categories, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SubCategories, "Child Category", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("SubCategoryIDs", (IEnumerable<SelectListItem>)ViewBag.SubCategories, htmlAttributes: new { @class = "form-control selectpicker",title = "-- Select Product SubCategory --", multiple = "multiple"  })
+                                        @Html.ValidationMessageFor(model => model.SubCategories, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">$</div>
+                                            </div>
+                                            @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control percentage" } })
+                                            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.DiscountPercentage, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-2">
+                                            @Html.EditorFor(model => model.DiscountPercentage, new { htmlAttributes = new { @class = "form-control percentage" } })
+                                            @Html.ValidationMessageFor(model => model.DiscountPercentage, "", new { @class = "text-danger" })
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">%</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.AfterDiscountPrice, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        <div class="input-group mb-2">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">$</div>
+                                            </div>
+                                            @Html.EditorFor(model => model.AfterDiscountPrice, new { htmlAttributes = new { @class = "form-control",@Disabled="disabled" } })
+                                            @Html.ValidationMessageFor(model => model.AfterDiscountPrice, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.BrandID, "BrandID", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("BrandID", (IEnumerable<SelectListItem>)ViewBag.Brand, htmlAttributes: new { @class = "form-control selectpicker" })
+                                        @Html.ValidationMessageFor(model => model.BrandID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.SizeIDs, "Sizes", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.DropDownList("SizeIDs", (IEnumerable<SelectListItem>)ViewBag.Sizes, htmlAttributes: new { @class = "form-control selectpicker", multiple = "multiple" })
+
+                                        @Html.ValidationMessageFor(model => model.BrandID, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.CreteDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.EditorFor(model => model.CreteDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                                        @Html.ValidationMessageFor(model => model.CreteDateTime, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        @Html.LabelFor(model => model.UpdateDateTime, htmlAttributes: new { @class = "control-label col-md-2" })
+                                        <div class="col-md-12">
+                                            @Html.EditorFor(model => model.UpdateDateTime, new { htmlAttributes = new { @class = "form-control" } })
+                                            @Html.ValidationMessageFor(model => model.UpdateDateTime, "", new { @class = "text-danger" })
+                                        </div>
+                                    </div>*@
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Summary, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @Html.TextAreaFor(model => model.Summary, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Summary, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        @*<textarea type="" class="form-control" id="Description" name="Description" placeholder="Description">@Model.Description</textarea>*@
+
+                                        @Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control" })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.Label("Select Pictures", htmlAttributes: new { @class = "control-label col-md-2" })
+                                    <div class="col-md-12">
+                                        <input id="PictureIds" type="hidden" name="PictureIds" value="" />
+                                        @Html.Editor("Pictures", new { htmlAttributes = new { @type = "file", @multiple = "multiple" } })
+                                        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+
+                                        <div class="row">
+                                            <div class="col-sm">
+                                                <div id="owl_demo_9" class="owl-carousel owl-theme">
+                                                    @foreach (var image in Model.ProductPictures)
+                                                    {
+                                                        var check = image.Picture.ID == Model.Thumbnail ? "checked" : string.Empty;
+
+                                                        <div class="item">
+                                                            <div class="card">
+
+                                                                <span class="image-clear__icon removeImg">×</span>
+
+                                                                <img class="card-img-top image img-thumbnail h-400p" data-id="@image.Picture.ID" src="/images/@image.Picture.Url" alt="Card image cap">
+                                                                <div class="card-body">
+                                                                    <div class="custom-control custom-radio radio-teal">
+                                                                        <input id="thumbnail-@image.Picture.ID" value="@image.Picture.ID" name="Thumbnail" class="input custom-control-input" type="radio" @check>
+                                                                        <label for="thumbnail-@image.Picture.ID" class="label custom-control-label">Set as Thumbnail Image</label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="custom-control custom-checkbox mb-15">
+                                            @*@Html.EditorFor(model => model.Featured)*@
+                                            @*@Html.LabelFor(model => model.Featured, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+                                            @Html.CheckBoxFor(model => model.Featured, htmlAttributes: new { @class = "custom-control-input" })
+                                            @Html.ValidationMessageFor(model => model.Featured, "", new { @class = "text-danger" })
+                                            @Html.LabelFor(model => model.Featured, htmlAttributes: new { @class = "custom-control-label" })
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                @*<div class="form-group">
+                                        <div class="col-md-offset-2 col-md-10">
+                                            <input type="submit" value="Save" class="btn btn-default" />
+                                        </div>
+                                    </div>*@
+                            </div>
+                            <div class="form-group col-md-12">
+                                <button type="button" id="updateBtn" class="btn btn-gradient-primary"><i class="glyphicon glyphicon-edit mr-1"></i>Update</button>
+                                <button data-href="@Url.Action("Delete","Product",new { Id = Model.ID } )" type="button" class="deleteProduct show btn btn-gradient-danger"><i class="glyphicon glyphicon-trash mr-1"></i>Delete</button>
+                                <a class="btn btn-gradient-secondary" href="@Url.Action("Index","Product")"><i class="icon-arrow-left-circle mr-2"></i>Cancle</a>
+                            </div>
+                            @*}*@
+                        </form>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+<div id="pictureTemplate" style="display:none;">
+    <div class="item">
+        <div class="card">
+            <span class="image-clear__icon removeImg">×</span>
+            <img class="card-img-top image img-thumbnail" data-id="" src="" alt="Card image cap">
+            <div class="card-body">
+                <div class="custom-control custom-radio radio-teal">
+                    <input id="" value="" name="Thumbnail" class="input custom-control-input" type="radio">
+                    <label for="" class="label custom-control-label">Set as Thumbnail Image</label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        CKEDITOR.replace("Description", {
+        height: 150
+
+        });
+        CKEDITOR.config.uiColor = "#95C3CF";
+        
+        owlCarousel();
+
+        removeMe();
+    });
+</script>
+<script>
+    $('#Pictures').change(function () {
+        var area= $('#owl_demo_9');
+        var pictures = this.files;
+        var picsData = new FormData();
+        for (var i = 0; i < pictures.length; i++) {
+            picsData.append("picture", pictures[i]);
+        }
+
+        $.ajax({
+            url:'@Url.Action("UploadPictures","Shared",new { area=""})',
+            //url: '/Shared/UploadPictures',
+            type: 'POST',
+            data:picsData,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.Success) {
+                    for (var i = 0; i < response.pictureList.length; i++) {
+                        $picture = response.pictureList[i];
+                        $pictureHtml = $('#pictureTemplate').clone();
+
+                        $pictureHtml.find('.image').attr('src','/images/' + $picture.Url);
+                        $pictureHtml.find('.image').attr('data-id', $picture.ID);
+                        $pictureHtml.find('.input').attr('value', $picture.ID);
+
+                        $pictureHtml.find('.input').attr('id','thumbnail'+$picture.ID);
+                        $pictureHtml.find('.label').attr('for', 'thumbnail' + $picture.ID);
+
+
+                        area.append($pictureHtml.html());
+                    }
+                    area.owlCarousel('destroy');
+                    area.owlCarousel({touchDrag:false,mouseDrag:false});
+                    owlCarousel();
+                    
+                    removeMe();
+                    //$('#thumbnail0').prop('checked', true);
+                }
+            }
+
+
+        });
+    });
+</script>
+<script>
+    $(".percentage").change(function () {
+        debugger;
+        var pPercent = parseInt($("#DiscountPercentage").val());
+        var pGiven = parseInt($("#Price").val())
+        var pAfter = " ";
+        if (isNaN(pPercent)|| isNaN(pGiven)) {
+            pAfter = " ";
+        } else {
+            pAfter = pGiven - ((pPercent / 100) * pGiven);
+            $("#AfterDiscountPrice").val(pAfter.toFixed(3));
+            $("#AfterDiscountPrice").removeAttr("Disabled");
+        }
+        
+    })
+</script>
+
+<script>
+     function removeMe() {
+        $('.removeImg').click(function () {
+            $(this).parent().parent().parent().remove();
+
+            $('#owl_demo_9').owlCarousel('destroy');
+            $('#owl_demo_9').owlCarousel({touchDrag:false,mouseDrag:false});
+            owlCarousel();
+        });
+       
+    }
+
+    function owlCarousel() {
+    $('#owl_demo_9').owlCarousel({
+            margin: 10,
+            //loop: true,
+            //autoplay: true,
+            responsiveClass: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                480: {
+                    items: 2
+                },
+                600: {
+                    items: 3
+                },
+                //800:{
+                //	items:4
+                //},
+
+            }
+        });
+    }
+   
+</script>
+<script>
+    $('#updateBtn').click(function (e) {
+        for (instance in CKEDITOR.instances) {
+            CKEDITOR.instances[instance].updateElement();
+        }
+        
+        var picIds = [];
+        $('#owl_demo_9 img').each(function () {
+            var picId =$(this).attr('data-id');
+            picIds.push(picId);
+        });
+        $('#PictureIds').val(picIds.join());
+
+        var data = $("#actionForm").serialize();
+        $.ajax({
+            url: '@Url.Action("Edit","Product")',
+            type: "post",
+            data:data,
+            success: function (response) {
+
+                if (response) {
+                    swal({
+                        title: "Updated!",
+                        text: "Product Update Successfully",
+                        icon: "success",
+                        buttons: {
+                            confirm: {
+                                text: "OK",
+                                value: true,
+                                visible: true,
+                                className: "btn btn-success",
+                                closeModal: true
+                            }
+                        }
+                    }).then((willConfirm) => {
+                        if (willConfirm) {
+                            window.location.href = '@Url.Action("Index","Product")';
+                        }
+                    });
+                }
+
+            }
+
+        });
+
+    });
+    
+    $('.deleteProduct').click(function (e) {
+        swal({
+            icon : "warning",
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: 'No, cancel !',
+                    className: 'btn btn-gradient-secondary'
+                },
+                confirm: {
+                    text: 'Yes, delete it !',
+                    className: 'btn btn-gradient-primary'
+                }
+            }
+        }).then((willDelete) => {
+            if (willDelete) {
+            var href = $(this).attr('data-href');
+            $.ajax({
+                url: href,
+                type: "post",
+                success: function (response) {
+                    if (response.Success) {
+                        swal("Success!","Your imaginary file has been deleted",
+                            {
+                                icon: "success",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-gradient-success'
+                                    }
+                                }
+                            }).then((Delete) => {
+						        if (Delete) {
+
+                                //location.reload();
+                                window.location.href = '@Url.Action("Index","Product")';
+						        } else {
+							        swal.close();
+						        }
+					});
+                    } else {
+                        $("#errorMessage").html(response.Message);
+                    }
+                }
+            });
+            } else {
+                swal("Your imaginary file is safe!", {
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-gradient-success'
+                        }
+                    }
+                });
+            }
+        });
+    })
+</script>
+<script>
+
+     $(function () {
+
+        $("#CategoryIDs").change(function () {
+        
+            var value = $(this).val();
+            var subCategorySelect = $('#SubCategoryIDs');
+
+            if (value.length != 0 && value != '') {
+                var url = '@Url.Action("SubCategory","Product")';
+                $.getJSON(url, $.param({ Ids: value }, true), function (data) {
+                    if (data != null && data != '') {
+                        subCategorySelect.html('');
+                        $.each(data, function (index, region) {
+                            subCategorySelect.append($('<option/>', {
+                                value: region.Value,
+                                text: region.Text
+                            }));
+                        });
+                        $('#SubCategoryIDs').selectpicker('refresh');
+                    }
+                });
+            }else {
+                 subCategorySelect.html('');
+                 subCategorySelect.append('<option value="" disabled> First Select Parent Category </option>');
+                 subCategorySelect.selectpicker('refresh');
+             }
+        });
+     });
+
+</script>

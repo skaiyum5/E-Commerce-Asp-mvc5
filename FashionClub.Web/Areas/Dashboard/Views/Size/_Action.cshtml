@@ -1,0 +1,65 @@
+﻿@model SizeActionModel
+<div class="modal-content">
+    <div class="modal-header bg-grey-dark-5">
+        @if (Model.ID > 0)
+        {
+            <h6 class="modal-title text-white" id="">Update Size</h6>
+        }
+        else
+        {
+            <h6 class="modal-title text-white" id="exampleModalPopoversLabel">Add new Size</h6>
+        }
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form id="actionForm">
+            <input type="hidden" name="ID" value="@Model.ID" />
+            <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
+            <input type="hidden" name="PageNo" value="@Model.PageNo" />
+            <div class="form-group">
+                <label for="Name">Size Name</label>
+                <input type="text" placeholder="Size" value="@Model.Name" id="Name" name="Name" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" class="form-control" name="Description" placeholder="Size Description">@Model.Description</textarea>
+            </div>
+        </form>
+        <div class="form-group">
+            @if (Model.ID > 0)
+            {
+                <button class="actionBtn btn btn-gradient-primary btn-block mr-10" type="button">Update</button>
+            }
+            else
+            {
+                <button class="actionBtn btn btn-gradient-primary btn-block mr-10" type="button">Add</button>
+            }
+            <button class="btn btn-gradient-secondary btn-block mr-10" data-dismiss="modal" type="button">Cancle</button>
+        </div>
+    </div>
+</div>
+}
+
+<script>
+
+    $(".actionBtn").click(function () {
+       debugger;
+        $.ajax({
+            url: '@Url.Action("Action","Size")',
+            type: "post",
+            data: $("#actionForm").serialize(),
+            beforeSend: function () {
+                $("#myModal").modal("hide");
+            },
+            success: function (response) {
+                $("#table").html("");
+                $("#table").html(response);
+            }
+
+        });
+    });
+
+
+</script>

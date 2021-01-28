@@ -1,0 +1,223 @@
+﻿@model ProductListingModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">
+            <div class="btn-group dropdown">
+                <a href="" data-display="static" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Product
+                </a>
+                <div class="dropdown-menu" data-dropdown-in="rollIn" data-dropdown-out="rollOut">
+                    <a class="dropdown-item" href="@Url.Action("Create","Product")">Create</a>
+                    <a class="dropdown-item disabled" href="#">Index</a>
+                </div>
+            </div>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Index</li>
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+
+
+<div class="container">
+    <div class="hk-pg-header">
+        <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="database"></i></span></span>Products Table</h4>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card_border p-lg-5 p-3 mb-4">
+                <div class="card-body py-3 p-0">
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <form action="" method="get">
+                                <div class="input-group col-lg-8 float-left">
+                                    <input class="form-control mt-1" style="box-shadow: rgba(113, 106, 202, 0.2) 0px 0px 15px 1px;" id="search" placeholder="Search." name="SearchTerm" value="@Model.SearchTerm" type="text" />
+                                    <select name="CategoryId" class="form-control mt-1" style="box-shadow: rgba(113, 106, 202, 0.2) 0px 0px 15px 1px;">
+                                        <option selected hidden>Parent Category</option>
+                                        @if (ViewBag.Categories != null && ViewBag.Categories.Count > 0)
+                                        {
+                                            foreach (var category in ViewBag.Categories)
+                                            {
+                                                string select = category.ID == Model.CategoryId ? "selected" : string.Empty;
+                                                <option @select value="@category.ID">@category.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                    <select name="SubCategoryId" class="form-control mt-1" style="box-shadow: rgba(113, 106, 202, 0.2) 0px 0px 15px 1px;">
+                                        <option selected hidden>Chaild Category</option>
+                                        @if (ViewBag.SubCategories != null && ViewBag.SubCategories.Count > 0)
+                                        {
+                                            foreach (var subCategory in ViewBag.SubCategories)
+                                            {
+                                                string select = subCategory.ID == Model.SubCategoryId ? "selected" : string.Empty;
+                                                <option @select value="@subCategory.ID">@subCategory.Name</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+
+                                <div class="input-group-append col-lg-4 float-left">
+                                    <button class="btn btn-outline-primary ml-0 m-1" type="submit"><i class="fa fa-search mr-1"></i>Search</button>
+                                    <a class="btn btn-outline-secondary m-1" href="@Url.Action("Index", "Product")"><i class="fa fa-refresh mr-1"></i>Reset</a>
+                                    <a class="btn btn-outline-info mr-0 m-1" href="@Url.Action("Create", "Product")"><i class="fa fa-plus mr-1"></i>Create</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <hr />
+                    @if (Model.Products != null && Model.Products.Count > 0)
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-active text-center">
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayName("Name")
+                                        </th>
+
+                                        <th>
+                                            @Html.DisplayName("Parent Categories")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Chaild Categories")
+                                        </th>
+                                        <th>
+                                            @Html.DisplayName("Summary")
+                                        </th>
+                                        @*<th>
+                                                @Html.DisplayName("Price")
+                                            </th>*@
+                                        <th>
+                                            @Html.DisplayName("Quantity")
+                                        </th>
+                                        @*<th>
+                                                @Html.DisplayName("Featured")
+                                            </th>*@
+                                        <th>
+                                            @Html.DisplayName("Action")
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="">
+                                    @foreach (var item in Model.Products)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @string.Join(",", item.Categories.Select(x => x.Name))
+                                            </td>
+                                            <td>
+                                                @string.Join(",",item.SubCategories.Select(x=>x.Name))
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Summary)
+                                            </td>
+                                            @*<td>
+                                                    <span>$</span> @Html.DisplayFor(modelItem => item.Price)
+                                                </td>*@
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Quantity)
+                                            </td>
+                                            @*<td>
+                                                    @item.Featured
+                                                    //@Html.DisplayFor(modelItem => item.Featured)
+                                                </td>*@
+                                            <td>
+                                                @*@Html.ActionLink("Delete", "Delete ", new { id = item.ID }, htmlAttributes: new { id="alert_demo_8", @class = "icon-trash show btn btn-gradient-danger float-lg-left fa" })*@
+
+                                                <a class="show btn btn-gradient-ashes float-lg-left fa m-1 mr-0" href="@Url.Action("Edit","Product",new { Id = item.ID } )"><i class="icon-pencil mr-2"></i>Edit</a>
+                                                <a class="show btn btn-gradient-paradise float-lg-left fa m-1 mr-0" href="@Url.Action("Details","Product",new { Id = item.ID } )"><i class="icon-info mr-2"></i>Details</a>
+                                                <button data-href="@Url.Action("Delete","Product",new { Id = item.ID } )" type="button" class="deleteProduct show btn btn-gradient-danger float-lg-left fa m-1"><i class="glyphicon glyphicon-trash mr-2"></i>Delete</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-warning" role="alert">
+                            Sorry! NO records exist.
+                        </div>
+                    }
+                </div>
+
+                <div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    $('.deleteProduct').click(function (e) {
+        swal({
+            icon : "warning",
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: 'No, cancel !',
+                    className: 'btn btn-gradient-secondary'
+                },
+                confirm: {
+                    text: 'Yes, delete it !',
+                    className: 'btn btn-gradient-primary'
+                }
+            }
+        }).then((willDelete) => {
+            if (willDelete) {
+            var href = $(this).attr('data-href');
+            $.ajax({
+                url: href,
+                type: "post",
+                success: function (response) {
+                    if (response.Success) {
+                        swal("Success!","Your imaginary file has been deleted",
+                            {
+                                icon: "success",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-gradient-success'
+                                    }
+                                }
+                            }).then((Delete) => {
+						        if (Delete) {
+
+                                location.reload();
+                                @*window.location.href = '@Url.Action("Index","Product")';*@
+						        } else {
+							        swal.close();
+						        }
+					});
+                    } else {
+                        $("#errorMessage").html(response.Message);
+                    }
+                }
+            });
+            } else {
+                swal("Your imaginary file is safe!", {
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-gradient-success'
+                        }
+                    }
+                });
+            }
+        });
+    })
+</script>

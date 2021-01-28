@@ -1,0 +1,145 @@
+﻿@model SubCategoryListModel
+@{
+    ViewBag.Title = "Index";
+}
+
+
+<!-- select2 CSS -->
+<link href="~/Areas/Dashboard/Content/vendors/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+<script src="~/Areas/Dashboard/Content/vendors/jquery/dist/jquery.min.js"></script>
+
+<!-- Select2 JavaScript -->
+<script src="~/Areas/Dashboard/Content/vendors/select2/dist/js/select2.full.min.js"></script>
+<script src="~/Areas/Dashboard/Content/dist/js/select2-data.js"></script>
+
+<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">
+            <div class="btn-group dropdown">
+                <a href="" data-display="static" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Category
+                </a>
+                <div class="dropdown-menu" data-dropdown-in="rollIn" data-dropdown-out="rollOut">
+                    <a class="dropdown-item" href="@Url.Action("Index","Category")">Parent Category</a>
+                    <a class="dropdown-item disabled" href="#">Child Category</a>
+                </div>
+            </div>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Child Category</li>
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+<div class="col-xl-12">
+    <div class="card card_border p-lg-5 p-3 mb-4">
+        <div class="card-body py-3 p-0">
+            <h3 class="block__title mb-lg-4 text-center">Child Category</h3>
+            <div class="row">
+                <div class="col col-lg-12">
+                    @*@Html.BeginForm("Listing","SubCategory")*@
+                    <form id="searchForm">
+                        <div class="input-group col-lg-8 float-left">
+                            <input class="form-control  mt-1 mb-2" id="search" placeholder="Search." name="searchTerm" value="" type="text"/>
+                            @*<input class="form-control  mt-1 mb-2" id=" " placeholder="Search." name="searchTerm" value="" type="text" required />*@
+                        <select id="categoryId" name="categoryId" class="form-control  mt-1 mb-2">
+                            <option value="value" selected disabled hidden>Parent Category</option>
+                            @if (Model.Categories != null && Model.Categories.Count() > 0)
+                            {
+                                foreach (var category in Model.Categories)
+                                {
+                                    <option value="@category.ID">@category.Name</option>
+                                }
+                            }
+
+                        </select>
+                        </div>
+
+                        <div class="input-group-append col-lg-4 float-left">
+                            <button id="searchBtn" class="btn btn-outline-primary ml-0 m-1" type="button"><i class="fa fa-search mr-1"></i>Search</button>
+                            @*<a class="btn btn-outline-secondary m-1" href="@Url.Action("Index", "SubCategory")"><i class="fa fa-refresh mr-1"></i>Reset</a>*@
+                            <button onclick="loadtable();" type="reset" class="btn btn-outline-secondary m-1"><i class="fa fa-refresh mr-1"></i>Reset</button>
+                            <button class="actionBtn btn btn-outline-info mr-0 m-1" data-href="@Url.Action("Action", "SubCategory")" data-toggle="modal" data-target="#myModal" type="button"><i class="fa fa-plus mr-1"></i>Create</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <hr />
+            <div id="table">
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+
+
+        </div>
+    </div>
+    <!-- /.modal -->
+</div>
+<script>
+    
+    $(document).ready(function () {
+        loadtable();
+        
+    });
+    
+    $('#searchBtn').click(function () {
+        var searchTerm = $('#search').val();
+        var categoryId = $('#categoryId').val();
+        $.ajax({
+            url: '@Url.Action("listing","subcategory")' + '?searchTerm=' + searchTerm + '&categoryId=' + categoryId,
+            type: 'get',
+            success: function (response) {
+                $('#table').html('');
+                $('#table').html(response);
+            },
+            error: function (ex) {
+                alert("fail!");
+            }
+        })
+    })
+    
+
+    $(".actionBtn").click(function () {
+        $.ajax({
+            url: $(this).attr("data-href"),
+            async: false,
+            cache: false
+
+        }).done(function (response) {
+            $("#myModal .modal-dialog").html(response);
+        }).fail(function (XHLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+
+    });
+
+    
+        function loadtable() {
+        $('#table').html("");
+        $.ajax({
+            type: 'get',
+            url: '@Url.Action("listing","subcategory")',
+            success: function (response) {
+
+                $('#table').html(response);
+            },
+            error: function (ex) {
+                alert("fail!");
+            }
+        });
+    }
+
+
+
+</script>     

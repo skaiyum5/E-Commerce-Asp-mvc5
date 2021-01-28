@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Roles>
+  <Controller name="Home">
+    <Action name="Index"></Action>
+    <Action name="About">Student,Admin</Action>
+    <Action name="Contact">Admin</Action>
+  </Controller>
+  <Controller name="Roles">
+    <Action name="Index"></Action>
+    <Action name="About">Student,Admin</Action>
+    <Action name="Contact">Roles</Action>
+  </Controller>
+  <Controller name="User">
+    <Action name="Index"></Action>
+    <Action name="About">Student,Admin</Action>
+    <Action name="Contact">Admin</Action>
+  </Controller>
+</Roles> 

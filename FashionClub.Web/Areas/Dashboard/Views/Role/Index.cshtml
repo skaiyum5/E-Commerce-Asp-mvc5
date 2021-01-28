@@ -1,0 +1,62 @@
+﻿@model  RoleListingModel
+
+<!-- Breadcrumb -->
+ <nav class="hk-breadcrumb" aria-label="breadcrumb">
+     <ol class="breadcrumb breadcrumb-light bg-transparent">
+         <li class="breadcrumb-item">Role</li>
+         <li class="breadcrumb-item active" aria-current="page">Index</li>
+     </ol>
+ </nav>
+<!-- /Breadcrumb -->
+<div class="container">
+    <div class="hk-pg-header">
+        <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="shield"></i></span></span>Roles</h4>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card_border p-lg-5 p-3 mb-4">
+                <div class="card-body py-3 p-0">
+                    <div class="row">
+                        <div class="col col-lg-12">
+                            <form action="" method="get">
+                                <div class="input-group col-lg-8 float-left">
+                                    <input class="form-control m-1 mr-0" id="search" placeholder="Search." name="searchTerm" value="@Model.SearchTerm" type="text" required />
+                                </div>
+
+                                <div class="input-group-append col-lg-4 float-left">
+                                    <button class="btn btn-primary ml-0 m-1" type="submit"><i class="fa fa-search mr-1"></i>Search</button>
+                                    <a class="btn btn-secondary m-1" href="@Url.Action("Index", "Role")"><i class="fa fa-spin fa-refresh mr-1"></i>Reset</a>
+                                    @*<button class="show btn btn-info mr-0 m-1" data-href="@Url.Action("Action", "Role")" data-toggle="modal" data-target="#myModal" type="button"><i class="fa fa-plus mr-1"></i>Create</button>*@
+                                    <a class="btn btn-info mr-0 m-1" href="@Url.Action("Action", "Role")"><i class="fa fa-plus mr-1"></i>Create</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <hr />
+                    <div id="table">
+                        @{Html.RenderAction("Listing", "Role");}
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+
+
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+
+</div>
+
+
+
+
+

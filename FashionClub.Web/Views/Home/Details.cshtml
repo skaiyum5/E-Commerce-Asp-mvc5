@@ -1,0 +1,339 @@
+﻿@model ProductViewModel
+@{
+    ViewBag.Title = "Details";
+    var defaultImage = "placeholder-image.png";
+}
+
+<div class="breadcrumb-area pt-205 pb-210" style="background-image: url(/Content/img/bg/breadcrumb.jpg)">
+    <div class="container">
+        <div class="breadcrumb-content text-center">
+            <h2>product details</h2>
+            <ul>
+                <li><a href="#">home</a></li>
+                <li> product details </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="product-details ptb-100 pb-90">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-12 col-lg-3">
+                <div class="sidebar-active1 product-details7-content">
+                    <div class="product-details-content">
+                        <h3>@Model.Product.Name</h3>
+                        <div class="rating-number">
+                            <div class="quick-view-rating">
+                                <i class="pe-7s-star"></i>
+                                <i class="pe-7s-star"></i>
+                                <i class="pe-7s-star"></i>
+                                <i class="pe-7s-star"></i>
+                                <i class="pe-7s-star"></i>
+                            </div>
+                            <div class="quick-view-number">
+                                <span>2 Ratting (S)</span>
+                            </div>
+                        </div>
+                        <div class="details-price">
+                            <span>$@Model.Product.Price</span>
+                        </div>
+                        <p>@Model.Product.Summary</p>
+                        <div class="product-details5-social">
+                            <ul>
+                                <li>
+                                    <a href="#">
+                                        <i class="icofont icofont-social-facebook"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icofont icofont-social-twitter"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icofont icofont-social-pinterest"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="icofont icofont-social-flikr"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-12 col-lg-6">
+                <div class="product-details-6">
+                    @foreach (var picture in Model.Product.ProductPictures.Select(x => x.Picture))
+                    {
+                        <div class="scroll-single-product mb-30">
+                            <img style="height:600px" src="~/images/@picture.Url" alt="">
+                            <a href="#" title="Wishlist"><i class="pe-7s-like"></i></a>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-12 col-12 col-lg-3">
+                <div class="sidebar-active3 product-details-content sidebar-details7">
+                    <div class="product-color-2">
+                        <h4 class="details-title">Color*</h4>
+                        <div class="product-color-style2">
+                            <ul>
+                                <li class="orange"></li>
+                                <li class="blue2"></li>
+                                <li class="pink"></li>
+                                <li class="yellow"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="product-size-2">
+                        <h4 class="details-title">Size*</h4>
+                        <div class="product-size-style2">
+                            <ul>
+                                <li><a href="#">xl</a></li>
+                                <li><a href="#">ml</a></li>
+                                <li><a href="#">m</a></li>
+                                <li><a href="#">sl</a></li>
+                                <li><a href="#">ls</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="quickview-plus-minus">
+                        <div class="cart-plus-minus">
+                            <input type="text" value="02" name="qtybutton" class="cart-plus-minus-box">
+                        </div>
+                        <div class="quickview-btn-cart">
+                            <a class="btn-hover-black" href="#">add to cart</a>
+                        </div>
+                    </div>
+                    <div class="product-details-cati-tag mt-35">
+                        <ul>
+                            <li class="categories-title">Categories :</li>
+                            @foreach (var category in ViewBag.Category)
+                            {
+                                <li><a href="#">@category.Name</a></li>
+                            }
+
+                        </ul>
+                    </div>
+                    <div class="product-details-cati-tag mtb-10">
+                        <ul>
+                            <li class="categories-title">Tags :</li>
+                            <li><a href="#">fashion</a></li>
+                            <li><a href="#">toys</a></li>
+                            <li><a href="#">food</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="product-description-review-area pb-90">
+    <div class="container">
+        <div class="product-description-review text-center">
+            <div class="description-review-title nav" role=tablist>
+                <a class="active" href="#pro-dec" data-toggle="tab" role="tab" aria-selected="true">
+                    Description
+                </a>
+                <a href="#pro-review" data-toggle="tab" role="tab" aria-selected="false">
+                    Reviews (0)
+                </a>
+            </div>
+            <div class="description-review-text tab-content">
+                <div class="tab-pane active show fade" id="pro-dec" role="tabpanel">
+                    <p>@Html.Raw(Model.Product.Description)</p>
+                </div>
+                <div class="tab-pane fade" id="pro-review" role="tabpanel">
+                    <a href="#">Be the first to write your review!</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- product area start -->
+<div class="product-area pb-95">
+    <div class="container">
+        <div class="section-title-3 text-center mb-50">
+            <h2>Related products</h2>
+        </div>
+        <div class="product-style">
+            <div class="related-product-active owl-carousel">
+                @if (Model.Products != null && Model.Products.Count() > 0)
+                {
+                    foreach (var product in Model.Products.Where(x=>x.ID!=Model.Product.ID).ToList())
+                    {
+                         var imgName= product.ProductPictures.Where(x => x.PictureID == product.Thumbnail).Select(y => y.Picture.Url).FirstOrDefault();
+                               var picUrl = !string.IsNullOrEmpty(imgName) ? imgName : defaultImage;
+                        <div class="product-wrapper">
+                            <div class="product-img">
+                                <a href="@Url.Action("Details","Home",new { Id=product.ID })">
+                                    <img style="height:474px" src="~/images/@picUrl" alt="">
+                                </a>
+                                <span>hot</span>
+                                <div class="product-action">
+                                    <a class="animate-left" title="Wishlist" href="#">
+                                        <i class="pe-7s-like"></i>
+                                    </a>
+                                    <a class="animate-top" title="Add To Cart" href="#">
+                                        <i class="pe-7s-cart"></i>
+                                    </a>
+                                    <a class="animate-right" onclick="return showModal(@product.ID)" title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#">
+                                            <i class="pe-7s-look"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="product-content">
+                                <h4><a href="@Url.Action("Details","Home",new { Id=product.ID })">@product.Name</a></h4>
+                                <span>$@product.Price</span>
+                            </div>
+                        </div>
+
+                    }
+
+                }
+                <div class="product-wrapper">
+                    <div class="product-img">
+                        <a href="#">
+                            <img src="/content/img/product/fashion-colorful/2.jpg" alt="">
+                        </a>
+                        <div class="product-action">
+                            <a class="animate-left" title="Wishlist" href="#">
+                                <i class="pe-7s-like"></i>
+                            </a>
+                            <a class="animate-top" title="Add To Cart" href="#">
+                                <i class="pe-7s-cart"></i>
+                            </a>
+                            <a class="animate-right" title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#">
+                                <i class="pe-7s-look"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h4><a href="#">Arifo Stylas Dress</a></h4>
+                        <span>$115.00</span>
+                    </div>
+                </div>
+                <div class="product-wrapper">
+                    <div class="product-img">
+                        <a href="#">
+                            <img src="assets/img/product/fashion-colorful/3.jpg" alt="">
+                        </a>
+                        <span>hot</span>
+                        <div class="product-action">
+                            <a class="animate-left" title="Wishlist" href="#">
+                                <i class="pe-7s-like"></i>
+                            </a>
+                            <a class="animate-top" title="Add To Cart" href="#">
+                                <i class="pe-7s-cart"></i>
+                            </a>
+                            <a class="animate-right" title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#">
+                                <i class="pe-7s-look"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h4><a href="#">Arifo Stylas Dress</a></h4>
+                        <span>$115.00</span>
+                    </div>
+                </div>
+                <div class="product-wrapper">
+                    <div class="product-img">
+                        <a href="#">
+                            <img src="assets/img/product/fashion-colorful/4.jpg" alt="">
+                        </a>
+                        <div class="product-action">
+                            <a class="animate-left" title="Wishlist" href="#">
+                                <i class="pe-7s-like"></i>
+                            </a>
+                            <a class="animate-top" title="Add To Cart" href="#">
+                                <i class="pe-7s-cart"></i>
+                            </a>
+                            <a class="animate-right" title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#">
+                                <i class="pe-7s-look"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h4><a href="#">Arifo Stylas Dress</a></h4>
+                        <span>$115.00</span>
+                    </div>
+                </div>
+                <div class="product-wrapper">
+                    <div class="product-img">
+                        <a href="#">
+                            <img src="assets/img/product/fashion-colorful/5.jpg" alt="">
+                        </a>
+                        <span>hot</span>
+                        <div class="product-action">
+                            <a class="animate-left" title="Wishlist" href="#">
+                                <i class="pe-7s-like"></i>
+                            </a>
+                            <a class="animate-top" title="Add To Cart" href="#">
+                                <i class="pe-7s-cart"></i>
+                            </a>
+                            <a class="animate-right" title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#">
+                                <i class="pe-7s-look"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h4><a href="#">Arifo Stylas Dress</a></h4>
+                        <span>$115.00</span>
+                    </div>
+                </div>
+                <div class="product-wrapper">
+                    <div class="product-img">
+                        <a href="#">
+                            <img src="assets/img/product/fashion-colorful/1.jpg" alt="">
+                        </a>
+                        <div class="product-action">
+                            <a class="animate-left" title="Wishlist" href="#">
+                                <i class="pe-7s-like"></i>
+                            </a>
+                            <a class="animate-top" title="Add To Cart" href="#">
+                                <i class="pe-7s-cart"></i>
+                            </a>
+                            <a class="animate-right" title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#">
+                                <i class="pe-7s-look"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h4><a href="#">Arifo Stylas Dress</a></h4>
+                        <span>$115.00</span>
+                    </div>
+                </div>
+                <div class="product-wrapper">
+                    <div class="product-img">
+                        <a href="#">
+                            <img src="assets/img/product/fashion-colorful/2.jpg" alt="">
+                        </a>
+                        <span>hot</span>
+                        <div class="product-action">
+                            <a class="animate-left" title="Wishlist" href="#">
+                                <i class="pe-7s-like"></i>
+                            </a>
+                            <a class="animate-top" title="Add To Cart" href="#">
+                                <i class="pe-7s-cart"></i>
+                            </a>
+                            <a class="animate-right" title="Quick View" data-toggle="modal" data-target="#exampleModal" href="#">
+                                <i class="pe-7s-look"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="product-content">
+                        <h4><a href="#">Arifo Stylas Dress</a></h4>
+                        <span>$115.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- product area end -->
+

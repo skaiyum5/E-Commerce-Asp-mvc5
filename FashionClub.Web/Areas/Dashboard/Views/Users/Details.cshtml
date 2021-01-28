@@ -1,0 +1,242 @@
+﻿@model UserDetailsViewModel
+@{
+    ViewBag.Title = "Details";
+    var profilePic = Model.FashionClubUser.ProfilePicture != null ? Model.FashionClubUser.ProfilePicture.ToString() : "/images/admin.png";
+}
+<!-- bootstrap-select-->
+<link href="~/Content/bootstrap-select.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap-select.min.js"></script>
+<style>
+    .form-control:disabled {
+        background-color: #e9ecef;
+        color: #324148;
+        border-color: #e0e3e4;
+    }
+</style>
+<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">
+            <div class="btn-group dropdown">
+                <a href="" data-display="static" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Category
+                </a>
+                <div class="dropdown-menu" data-dropdown-in="rollIn" data-dropdown-out="rollOut">
+                    <a class="dropdown-item" href="@Url.Action("Index", "Users")">Index</a>
+                    <a class="dropdown-item disabled" href="#">Details</a>
+                </div>
+            </div>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Details</li>
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+<div class="col-xl-12">
+    <div class="card card_border p-lg-5 p-3 mb-4">
+        <div class="card-body py-3 p-0">
+            <h3 class="block__title mb-lg-4 bold text-info text-center">Profile</h3>
+            <div class="row">
+                <div class="col-sm">
+
+                    <!-- Row -->
+                    <div class="row">
+                        <!-- Column -->
+                        <div class="col-lg-3 col-xlg-3 col-md-5">
+                            <div class="card">
+                                @*/images/admin.png*@
+                                <img class="card-img-top img-thumbnail" src="@profilePic" alt="Card image cap">
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <small class="text-muted pl-25"> User Name </small>
+                                            <h6 class="float-left"><i class="float-left fa fa-user mr-2"></i>@Model.FashionClubUser.UserName</h6>
+                                        </li>
+                                        @if (string.IsNullOrEmpty(Model.FashionClubUser.PhoneNumber))
+                                        {
+                                            <li class="list-group-item">
+                                                <small class="text-muted p-t-30 db pl-20">Phone</small>
+                                                <h6 class="float-left"><i class="float-left fa fa-mobile-phone mr-1"></i>+88 01654784547</h6>
+                                            </li>
+                                        }
+                                        @if (string.IsNullOrEmpty(Model.FashionClubUser.Address))
+                                        {
+                                            <li class="list-group-item">
+                                                <small class="text-muted p-t-30 db">Address</small>
+                                                <h6><i class="float-left icon-location-pin mr-1"></i>71 Pilgrim Avenue Chevy Chase, MD 20815</h6>
+                                            </li>
+                                        }
+                                    </ul>
+                                    <div class="ml-15">
+                                        <small class="text-muted p-t-30 db">Social Profile</small>
+                                        <br />
+                                        <button class="btn btn-circle btn-secondary"><i class="fa fa-facebook"></i></button>
+                                        <button class="btn btn-circle btn-secondary"><i class="fa fa-twitter"></i></button>
+                                        <button class="btn btn-circle btn-secondary"><i class="fa fa-youtube"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                        <!-- Column -->
+                        <div class="col-lg-9 col-xlg-9 col-md-7">
+                            <div class="card">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-pills nav-light bg-light p-4" role="tablist">
+                                    <li class="nav-item"> <a class="nav-link active" data-toggle="tab" href="#profile" role="tab">Profile</a> </li>
+                                    <li class="nav-item"> <a class="nav-link " id="roleBtn" data-toggle="tab" href="#role" role="tab">Role</a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#Orders" role="tab">Orders</a> </li>
+                                    <li class="nav-item"> <a class="nav-link" data-toggle="tab" href="#Comments" role="tab">Comments</a> </li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="profile" role="tabpanel">
+                                        <div class="card-body">
+                                            @if (Model.FashionClubUser != null)
+                                            {
+                                            <form id="userForm" class="form-horizontal form-material">
+                                                <input type="hidden" name="Id" value="@Model.FashionClubUser.Id">
+                                                <div class="form-group">
+                                                    <label for="full-Name" class="col-md-12">Full Name</label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" id="full-Name" placeholder="Johnathan Doe" name="FullName" value="@Model.FashionClubUser.FullName" class="form-control form-control-line" Disabled>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label for="phone_number" class="col-md-12">Phone No</label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" id="phone_number" placeholder="123 456 7890" name="PhoneNumber" value="@Model.FashionClubUser.PhoneNumber" class="form-control form-control-line" Disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="zip_Code" class="col-md-12">ZipCode</label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" id="zip_Code" placeholder="7890" name="ZipCode" value="@Model.FashionClubUser.ZipCode" class="form-control form-control-line" Disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-12">Select Country</label>
+                                                    <div class="col-sm-12">
+                                                        <select class="form-control form-control-line">
+                                                            <option>London</option>
+                                                            <option>India</option>
+                                                            <option>Usa</option>
+                                                            <option>Canada</option>
+                                                            <option>Thailand</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-sm-12">Select City</label>
+                                                    <div class="col-sm-12">
+                                                        <select class="form-control form-control-line">
+                                                            <option>London</option>
+                                                            <option>India</option>
+                                                            <option>Usa</option>
+                                                            <option>Canada</option>
+                                                            <option>Thailand</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="address" class="col-md-12">Address</label>
+                                                    <div class="col-md-12">
+                                                        <textarea rows="3" id="address" name="Address" class="form-control form-control-line" Disabled>@Model.FashionClubUser.Address</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="Email" class="col-md-12">Email</label>
+                                                    <div class="col-md-12">
+                                                        <input type="text" id="Email" placeholder="Email@mail.com" value="@Model.FashionClubUser.Email" class="form-control" Disabled>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-12">
+                                                        <button type="button" class="btn btn-primary" id="updateBtn"><i class="glyphicon glyphicon-edit mr-2"></i>Update Profile</button>
+                                                        <button type="button" class="btn btn-success" id="saveBtn" hidden><i class="glyphicon glyphicon-save mr-2"></i>Save</button>
+                                                        <button type="button" class="btn btn-dark" id="cancelBtn" hidden><i class="icon-action-undo mr-2"></i>Cancel</button>
+                                                        <button type="button" class="btn btn-danger" id="deleteBtn"><i class="glyphicon glyphicon-trash mr-2"></i>Delete</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+
+                                            }
+                                        </div>
+                                    </div>
+                                    <!--second tab-->
+                                    <div class="tab-pane" id="role" role="tabpanel">
+                                        <div class="card-body">
+                                            @*@{Html.RenderPartial("_UserRole",Model.UserRolesViewModel);}*@
+                                            @*@{Html.RenderAction("UserRoles", "Users", new { Id = Model.FashionClubUser.Id, isDetails = true });}*@
+                                        </div>
+                                    </div>
+
+                                    <div class="tab-pane" id="Orders" role="tabpanel">
+                                        <div class="card-body">
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane" id="Comments" role="tabpanel">
+                                        <div class="card-body">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Column -->
+                    </div>
+                    <!-- Row -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $('#updateBtn').click(function () {
+        $('.form-control-line').removeAttr('Disabled');
+        $('#saveBtn').removeAttr('hidden');
+        $('#cancelBtn').removeAttr('hidden');
+        $(this).prop('hidden', true);
+    });
+
+    //$('#cancelBtn').click(function () {
+    //    $('.form-control-line').prop('disabled', true);
+    //    $('#updateBtn').removeAttr('hidden');
+    //    $('#saveBtn').prop('hidden', true);
+    //    $(this).prop('hidden', true);
+    //});
+
+    $('#cancelBtn').click(function () {
+        location.reload();
+    });
+    $('#saveBtn').click(function () {
+        $.ajax({
+            type: "POST",
+            data:$('#userForm').serialize(),
+            url: '@Url.Action("Update", "Users")',
+            success: function (response) {
+                if (response) {
+                    location.reload();
+                };
+            },
+            error: function (ex) {
+                alert("fail!");
+            }
+        });
+    });
+
+
+    $('#roleBtn').click(function () {
+        $.ajax({
+            url:'@Url.Action("UserRoles", "Users", new { Id = Model.FashionClubUser.Id, isDetails = true })',
+            type: 'GET'
+        }).done(function (response) {
+            $("#role .card-body").html("");
+            $("#role .card-body").html(response);
+        }).fail(function (textStatus, errorThrown) {
+            alert("FAIL");
+        });
+
+    });
+</script>

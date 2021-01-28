@@ -1,0 +1,117 @@
+﻿@model UserRolesViewModel
+@if (Model != null)
+{
+    <div class="modal-content">
+        
+        <div class="modal-body">
+            <h4 class="modal-title text-center pa-20">
+                User Roles
+            </h4>
+
+
+            <div class="card-body pa-0">
+                <div class="table-wrap">
+                    <div class="table-responsive">
+
+                        @if (Model.UserRoles != null && Model.UserRoles.Count() > 0)
+                        {
+                            <table class="table">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th colspan="3">
+                                            Current User Roles
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var userRole in Model.UserRoles)
+                                    {
+                                        <tr class="col-md-12 col-12">
+                                            <td class="col-md-6 col-6 float-left"> @userRole.Name</td>
+                                            <td class="col-md-6 col-6  float-left">
+                                                <button type="button" data-href="@Url.Action("UserRoles","Users", new {userId=Model.UserID, roleID=userRole.Id, isDelete=true })" class="actionBtn btn btn-danger"><i @*fa fa-trash-o*@ class="fa fa-user-times mr-1"></i>Detele</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        { <div class="alert alert-warning" role="alert">
+                                Sorry! NO Role Assign.
+                            </div>
+
+                        }
+
+                        @if (Model.Roles != null && Model.Roles.Count() > 0)
+                        {
+                            <hr />
+                            <hr />
+                            <table class="table">
+                                <thead class="bg-light">
+                                    <tr>
+                                        <th colspan="2">
+                                            Roles
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var roles in Model.Roles)
+                                    {
+                                        <tr class="col-md-12 col-12">
+                                            <td class="col-md-6 col-6 float-left">@roles.Name</td>
+                                            <td class="col-md-6 col-6 float-left">
+                                                <button type="button" data-href="@Url.Action("UserRoles", "Users",new { userId=Model.UserID, roleID=roles.Id})" class="actionBtn btn btn-success"><i class="fa fa-check-square-o mr-1"></i>Assign</button>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <hr />
+                            <hr />
+                            <div class="alert alert-warning" role="alert">
+                                Sorry! NO Role Available.
+                            </div>
+
+                        }
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="errorMessage"></div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="icon-action-undo mr-1"></i>Close</button>
+        </div>
+    </div>
+}
+
+
+<script>
+    
+    $(".actionBtn").click(function () {
+        $.ajax({
+            type: "POST",
+            url: $(this).attr("data-href")
+            
+        }).done(function (response) {
+
+            if (response.Success) {
+
+           $.ajax({
+                url: '@Url.Action("UserRoles", "Users" ,new { Id=Model.UserID})',
+
+            }).done(function(responses) {
+                $("#myModal .modal-dialog").html(responses);
+            })
+            }
+        }).fail(function (textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+</script>
+
+

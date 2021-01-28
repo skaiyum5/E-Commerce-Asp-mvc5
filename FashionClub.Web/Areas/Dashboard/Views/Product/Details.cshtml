@@ -1,0 +1,269 @@
+﻿@model FashionClub.Entities.Product
+
+@{
+    ViewBag.Title = "Details";
+}
+<style>
+    label {
+        font-weight: 700
+    }
+</style>
+<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">
+            <div class="btn-group dropdown">
+                <a href="" data-display="static" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Product
+                </a>
+                <div class="dropdown-menu" data-dropdown-in="rollIn" data-dropdown-out="rollOut">
+                    <a class="dropdown-item" href="@Url.Action("Index", "Product")">Index</a>
+                    <a class="dropdown-item" href="@Url.Action("Create", "Product")">Create</a>
+                    <a class="dropdown-item disabled" href="#">Details</a>
+                </div>
+            </div>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">Details</li>
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+
+<div class="container">
+    <div class="hk-pg-header">
+        <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="info"></i></span></span> Details @Model.Name Product</h4>
+    </div>
+    <div class="row">
+        <div class="col-xl-12">
+            <section class="hk-sec-wrapper">
+                <div class="row">
+                    <div class="col-sm">
+                        @*<hr />@Html.DisplayName("Brand Name", new { @class = "form-group row" })*@
+                        <div class="form-group row">
+                            @Html.Label("Product Name", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div id="selects" class="col-sm-9">
+                                <div class="form-control filled-input">@Html.DisplayFor(model => model.Name) </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            
+                            @Html.Label("Parent Category", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div id="selects" class="col-sm-9">
+                                <div class="form-control filled-input">@string.Join(",",Model.Categories.Select(x => x.Name))</div>
+                                @*<div class="form-control filled-input">@Html.Display(string.Join(",", Model.Categories.Select(x=>x.Name)))</div>*@
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Child Category", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div id="selects" class="col-sm-9">
+                                <div class="form-control filled-input">@string.Join(",",Model.SubCategories.Select(x=>x.Name))</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Price", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div id="selects" class="col-sm-9">
+                                <div class="form-control filled-input"><span class="mr-2">$</span>@Html.DisplayFor(model => model.Price)</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Discount Percentage", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div id="selects" class="col-sm-9">
+                                <div class="form-control filled-input">@Html.DisplayFor(model => model.DiscountPercentage) <span class="ml-2">%</span></div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("After Discount Price", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                <div class="form-control filled-input"><span class="mr-2">$</span>@Html.DisplayFor(model => model.AfterDiscountPrice)</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Quantity", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                <div class="form-control filled-input">@Html.DisplayFor(model => model.Quantity)</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            @Html.Label("Brand Name", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                <div class="form-control filled-input">@Html.DisplayFor(model => model.Brand.Name)</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Sizes", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                <div class="form-control filled-input">
+                                    @{ if (Model.Sizes != null)
+                                        {
+                                            foreach (var size in Model.Sizes)
+                                            {
+                                                @size.Name <span>,</span>
+                                            }
+
+                                        } }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Featured", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                <div class="form-control filled-input">@(Model.Featured == true ? "True" : "False")</div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Summary", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @Html.TextAreaFor(model => model.Summary, htmlAttributes: new { @class = "form-control filled-input", @disabled = "disabled" })
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            @Html.Label("Description", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                <div class="panel-body">
+                                    <div class="p-4" style="background-color:#f4f4f5">@Html.Raw(Model.Description)</div>  
+                                </div>
+                                @*@Html.TextAreaFor(model => model.Description, htmlAttributes: new { @class = "form-control filled-input", @disabled = "disabled" })*@
+                            </div>
+                        </div>
+                        <hr />
+
+                        @*<div class="form-group">
+                                @Html.Label("Product Name")
+                                //@Html.Editor("Name", Model.Name, new { htmlAttributes = new { @class = "form-control shadow mb-25 pa-15 bg-light rounded",disabled="disabled" } })
+                                <div class="shadow pa-10 bg-light rounded">@Html.DisplayFor(model => model.Name)</div>
+                            </div>*@
+                        <div class="form-group row">
+                            @Html.Label("Images", htmlAttributes: new { @class = "col-sm-3 col-form-label" })
+                            <div class="col-sm-9">
+                                @if (Model.ProductPictures != null && Model.ProductPictures.Count() > 0 && Model.Thumbnail>0)
+                                {
+                                    var i = 0;
+                                    <div class="row">
+                                        <div class="col-sm">
+                                            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                                                <ol class="carousel-indicators">
+                                                    @foreach (var image in Model.ProductPictures)
+                                                    {
+                                                        var active = image.Picture.ID == Model.Thumbnail ? "active" : string.Empty;
+                                                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="@active"></li>
+                                                        i++;
+                                                    }
+                                                </ol>
+                                                <div class="carousel-inner">
+
+                                                    @foreach (var image in Model.ProductPictures)
+                                                    {
+                                                        var picUrl = "/images/" + image.Picture.Url;
+                                                        <div class="carousel-item @(image.Picture.ID == Model.Thumbnail?"active":string.Empty)">
+                                                            <img class="d-block w-100 h-540p" src="@picUrl" alt="First slide">
+                                                            <div class="carousel-caption d-none d-md-block">
+                                                                @if (image.Picture.ID == Model.Thumbnail)
+                                                                {
+                                                                    <h5 class="text-primary">It's for thumbnail</h5>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Previous</span>
+                                                </a>
+                                                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                    <span class="sr-only">Next</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                            </div>
+                        </div>
+
+                        @*<div class="form-group row">
+                            <label for="Name" class="col-sm-3 col-form-label">Name</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" value="DisplayFor DisplayFor" id="Name" name="Name" placeholder="Name" disabled>
+                            </div>
+                        </div>*@
+
+                        <div class="form-group row mb-0">
+                            <label class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                <a class="btn btn-gradient-info" href="@Url.Action("Edit","Product",new { Id = Model.ID } )"><i class="glyphicon glyphicon-edit mr-2"></i>Edit</a>
+                                <button data-href="@Url.Action("Delete","Product",new { Id = Model.ID } )" type="button" class="deleteProduct show btn btn-gradient-danger"><i class="glyphicon glyphicon-trash mr-1"></i>Delete</button>
+                                <a class="btn btn-gradient-secondary" href="@Url.Action("Index","Product")"><i class="icon-arrow-left-circle mr-2"></i>Back</a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+
+@*<script src="~/Areas/Dashboard/Content/vendors/owl.carousel/dist/owl.carousel.min.js"></script>*@
+<script>
+    $('.deleteProduct').click(function (e) {
+        swal({
+            icon : "warning",
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+
+            buttons: {
+                cancel: {
+                    visible: true,
+                    text: 'No, cancel !',
+                    className: 'btn btn-gradient-secondary'
+                },
+                confirm: {
+                    text: 'Yes, delete it !',
+                    className: 'btn btn-gradient-primary'
+                }
+            }
+        }).then((willDelete) => {
+            if (willDelete) {
+            var href = $(this).attr('data-href');
+            $.ajax({
+                url: href,
+                type: "post",
+                success: function (response) {
+                    if (response.Success) {
+                        swal("Success!","Your imaginary file has been deleted",
+                            {
+                                icon: "success",
+                                buttons: {
+                                    confirm: {
+                                        className: 'btn btn-gradient-success'
+                                    }
+                                }
+                            }).then((Delete) => {
+						        if (Delete) {
+
+                                //location.reload();
+                                window.location.href = '@Url.Action("Index","Product")';
+						        } else {
+							        swal.close();
+						        }
+					});
+                    } else {
+                        $("#errorMessage").html(response.Message);
+                    }
+                }
+            });
+            } else {
+                swal("Your imaginary file is safe!", {
+                    buttons: {
+                        confirm: {
+                            className: 'btn btn-gradient-success'
+                        }
+                    }
+                });
+            }
+        });
+    })
+</script>

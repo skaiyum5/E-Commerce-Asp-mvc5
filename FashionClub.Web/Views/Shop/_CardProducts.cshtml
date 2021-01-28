@@ -1,0 +1,35 @@
+﻿@model ListOFProductsViewModel
+
+@if (Model != null && Model.Products != null)
+{
+
+    foreach (var product in Model.Products)
+    {
+        var quantity = Model.CardProductIds.Where(x => x == product.ID).Count();
+    <li class="single-product-cart">
+        <div class="cart-img">
+            <a href="#"><img src="~/Content/img/cart/1.jpg" alt=""></a>
+        </div>
+        <div class="cart-title">
+            <h5><a href="#"> @product.Name</a></h5>
+            <h6><a href="#">Black</a></h6>
+            <span>@product.Price x @quantity </span>
+        </div>
+        <div class="cart-delete">
+            <a href="#"><i class="ti-trash"></i></a>
+        </div>
+    </li>
+    }
+    
+    <li class="cart-btn-wrapper">
+        <a class="cart-btn btn-hover" href="#">view cart</a>
+        <a class="cart-btn btn-hover" href="#">checkout</a>
+    </li>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        Sorry! NO records exist.
+    </div>
+}
+

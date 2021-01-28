@@ -1,0 +1,189 @@
+﻿@model RoleActionModel
+
+@*<script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Areas/Dashboard/Content/vendors/jquery/dist/jquery.min.js"></script>*@
+<script src="~/Areas/Dashboard/Content/Checktree-master/js/jquery-1.11.1.min.js"></script>
+<script src="~/Areas/Dashboard/Content/Checktree-master/js/checktree.js"></script>
+<link href="~/Areas/Dashboard/Content/Checktree-master/css/styles.css" rel="stylesheet" />
+<!-- Breadcrumb -->
+<nav class="hk-breadcrumb" aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-light bg-transparent">
+        <li class="breadcrumb-item">Role</li>
+        @if (string.IsNullOrEmpty(Model.ID))
+        {
+            <li class="breadcrumb-item active" aria-current="page">Create</li>
+        }
+        else
+        {
+            <li class="breadcrumb-item active" aria-current="page">Edit</li>
+        }
+    </ol>
+</nav>
+<!-- /Breadcrumb -->
+<div class="container">
+    @*<div class="hk-pg-header">
+            <h4 class="hk-pg-title"><span class="pg-title-icon"><span class="feather-icon"><i data-feather="shield"></i></span></span>Roles</h4>
+        </div>*@
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card card_border p-lg-5 p-3 mb-4">
+                <div class="card-body py-3 p-0">
+                    @if (!string.IsNullOrEmpty(Model.ID))
+                    {
+                        <h3 class="block__title mb-lg-4 text-center">Edit Role</h3>
+                    }
+                    else
+                    {
+                        <h3 class="block__title mb-lg-4 text-center">Create Role</h3>
+                    }
+
+                    <div class="row">
+
+                        <div class="col-md-1"></div>
+                        <div class="col-md-10">
+
+                            <div class="card-body">
+                                <form method="post" action="@Url.Action("Action","Role")" class="form-horizontal form-material">
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label">Name</label>
+                                        <div class="col-sm-10">
+                                            <input class="form-control" value="@Model.Name" name="Name" id="inputName" placeholder="Name" type="text">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="inputDescription" class="col-sm-2 col-form-label">Description</label>
+                                        <div class="col-sm-10">
+                                            <textarea class="form-control" name="Description" id="inputDescription" placeholder="Description">@Model.Description</textarea>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label for="inputName" class="col-sm-2 col-form-label pt-40">Access List</label>
+                                        @if (Model.RouteInfos != null && Model.RouteInfos.Count() > 0)
+                                        {
+                                            <div class="col-sm-10 pt-30">
+
+                                                <ul class="checktree">
+                                                    @{
+                                                        var i = 1;
+                                                        var j = 1;
+                                                    }
+                                                    @foreach (var aArea in Model.Areas)
+                                                    {
+                                                        var area = !string.IsNullOrEmpty(aArea) ? aArea : "Web";
+                                                        <li>
+                                                            <a href="javascript:void(0);" data-toggle="collapse" data-target="#area-@i"><i class="ion ion-md-arrow-dropdown"></i></a>
+                                                            <input id="@area" type="checkbox" /><label for="@area">@area</label>
+                                                            <ul id="area-@i" class="collapse">
+                                                                @foreach (var controller in Model.RouteInfos.Where(x => x.Area == aArea.ToString()).Select(y => y.Controller).Distinct())
+                                                                {
+                                                                    <li>
+                                                                        <a href="javascript:void(0);" data-toggle="collapse" data-target="#controller-@j"><i class="ion ion-md-arrow-dropdown"></i></a>
+
+                                                                        <input id="controller_@controller-@i" type="checkbox" /><label for="controller_@controller-@i">@controller</label>
+                                                                        <ul id="controller-@j" class="collapse">
+                                                                            @foreach (var action in Model.RouteInfos.Where(x => x.Controller == controller.ToString() && x.Area == aArea.ToString()))
+                                                                            {
+                                                                                var cek ="";
+                                                                                if (Model.FashionClubRoleRouteInfos != null && Model.FashionClubRoleRouteInfos.Count() > 0)
+                                                                                {
+                                                                                    cek = Model.FashionClubRoleRouteInfos.Any(x =>x.ID == action.ID) ? "checked" : string.Empty;
+
+                                                                                }
+
+                                                                                <li>
+                                                                                    <input @cek name="Selected" class="checktrees" value="@action.ID" id="@action.Action-@action.ID" type="checkbox" />
+                                                                                    <label for="@action.Action-@action.ID">@action.Action <span class="badge badge-success">@action.Attributes</span></label>
+                                                                                </li>
+                                                                            }
+
+                                                                        </ul>
+                                                                    </li>
+                                                                    j++;
+                                                                }
+
+                                                            </ul>
+                                                        </li>
+                                                        i++;
+                                                    }
+
+                                                </ul>
+
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="col-sm-10 pt-30">
+                                                <div class="row">
+                                                    <div class="col-sm">
+                                                        <div class="alert alert-info text-center" role="alert">
+                                                            Access List Not Available !
+                                                        </div>
+                                                        <button type="button" id="setRoutes" class="btn btn-info btn-block mb-15">Set Access List</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        }
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <div class="col-sm-12 pr-40 text-right">
+                                            @if (Model.ID != null && Model.ID.Count() > 0)
+                                            {
+                                                <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-edit mr-2"></i>Update</button>
+
+                                                <a href="@Url.Action("Delete","Product",new { Id = Model.ID } )" class="deleteRole btn btn-danger"><i class="glyphicon glyphicon-trash mr-1"></i>Delete</a>
+                                            }
+                                            else
+                                            {
+                                                <button type="submit" class="btn btn-info"><i class="fa fa-save mr-1"></i>Create</button>
+                                            }
+
+                                            <a class="btn btn-secondary" href="@Url.Action("Index","Role")"><i class="icon-action-undo mr-2"></i>Cancle</a>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+<script>
+    $(function () {
+        $("ul.checktree").checktree();
+    });
+
+ 
+
+    $('#setRoutes').click(function () {
+        $.ajax({
+            url:'@Url.Action("SetRoutes","Role")'
+
+        }).done(function (response) {
+            debugger;
+            swal(""+response.Data.Success, " ", {
+						icon : "info",
+						buttons: false,
+                        timer: 2000,
+            }).then((yes) => { location.reload() });
+            
+
+        }).fail(function (XHLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+</script>

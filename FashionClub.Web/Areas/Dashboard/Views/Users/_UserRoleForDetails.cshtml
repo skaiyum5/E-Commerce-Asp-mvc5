@@ -1,0 +1,119 @@
+﻿@model UserRolesViewModel
+
+@if (Model != null)
+{
+     <div class="table-wrap">
+        <div class="table-responsive">
+
+            <table class="table">
+                <thead class="bg-light-20">
+                    <tr>
+                        <th colspan="3">
+                            <h5><i class="fa fa-user-secret mr-2"></i> Current User Roles</h5>
+                        </th>
+                    </tr>
+                </thead>
+
+                @if (Model.UserRoles != null && Model.UserRoles.Count() > 0)
+                {
+                    <tbody>
+                        @foreach (var userRole in Model.UserRoles)
+                        {
+                            <tr class="col-md-12 col-12">
+                                <td class="col-md-8 col-7 ml-15 float-left"> @userRole.Name</td>
+                                <td class="col-md-3 col-4 pl-0 float-left">
+                                    <button type="button" data-href="@Url.Action("UserRoles","Users", new {userId=Model.UserID, roleID=userRole.Id, isDelete=true })" class="actionBtn btn btn-danger"><i @*fa fa-trash-o*@ class="icon-user-unfollow mr-1"></i>Detele</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+
+                }
+
+                else
+                {
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="alert alert-warning" role="alert">
+                                    Sorry! NO Role Assign.
+                                </div>
+                            </td>
+                            
+                        </tr>
+                    </tbody>
+                    @*<div class="alert alert-warning" role="alert">
+                        Sorry! NO Role Assign.
+                    </div>*@
+
+                }
+            </table>
+            <h />
+            <hr />
+            <div class="square form-control-lg bg-light-20">
+                <h5><i class="fa fa-user-plus mr-2"></i> Roles</h5>
+            </div>
+            @if (Model.Roles != null && Model.Roles.Count() > 0)
+            {
+                <form id="assignForm" class="form-horizontal form-material">
+                    <div class="form-group col-md-12 col-12">
+                        <div class="col-md-8 col-7 float-left">
+                            <select id="roles" name="Roles" class="form-control selectpicker" title="-- Select User Roles --" data-actions-box="true" data-live-search="true" multiple>
+                                @foreach (var role in Model.Roles)
+                                {
+                                    <option name="roles" value="@role.Name">@role.Name</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-4 col-5 pl-md-20 float-left">
+                            <button type="button" data-href="@Url.Action("UserRoles", "Users", new {userId=Model.UserID})" class="actionBtn btn btn-success"><i class="icon-user-following mr-1"></i>Assign</button>
+                        </div>
+                    </div>
+                </form>
+
+            }
+            else
+            { <div class="alert alert-warning mt-20" role="alert">
+                    Sorry! NO Roles Are Available.
+                </div>
+
+            }
+        </div>
+    </div>
+
+}
+
+
+<script>
+
+    $(".actionBtn").click(function () {
+        var Roles = [];
+        $("#assignForm option:selected").each(function () {
+            Roles.push($(this).attr("value"));
+        });
+        $.ajax({
+            type: "POST",
+            url: $(this).attr("data-href"),
+            data:{roles:Roles },
+        }).done(function (response) {
+
+            if (response.Success) {
+
+           $.ajax({
+                url: '@Url.Action("UserRoles", "Users" ,new { Id=Model.UserID,isDetails=true})',
+
+            }).done(function(responses) {
+                $("#role .card-body").html("");
+                $("#role .card-body").html(responses);
+                $('#roles').selectpicker();
+            })
+            }
+        }).fail(function (textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+
+   
+</script>
+
+

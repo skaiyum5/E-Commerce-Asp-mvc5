@@ -1,0 +1,68 @@
+﻿@model CategoryListModel
+
+
+<div class="row">
+    <div class="col col-lg-12">
+
+        @if (Model != null && Model.Categories != null && Model.Categories.Count() > 0)
+        {
+            <div class="panel panel-default">
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover">
+                            <thead>
+                                <tr class="text-center thead-active">
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Picture</th>
+                                    <th>Publication Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var category in Model.Categories)
+                                {
+
+                                    <tr class="success">
+                                        <td>@category.Name</td>
+                                        <td>@category.Description</td>
+                                        <td class="tdimg"><img class="table-img" src="/images/@category.Picture.Url" alt="Alternate Text" /></td>
+                                        <td>@(category.PublicationStatus == true ? "Active" : "Deactive")</td>
+                                        <td class="embed-responsive-item">
+                                            <button class="modalShow btn btn-gradient-primary float-lg-left fa mr-0 m-1" data-href="@Url.Action("Action", "Category" ,new { ID=category.ID})" data-toggle="modal" data-target="#myModal"><i class="fa fa-pencil-square-o mr-1"></i> Edit</button>
+                                            <button class="modalShow btn btn-gradient-danger float-lg-left fa m-1" data-href="@Url.Action("Delete", "Category" ,new { ID=category.ID})" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o mr-1"></i>Delete</button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-warning" role="alert">
+                Sorry! NO records exist.
+            </div>
+        }
+
+    </div>
+
+</div>
+
+
+<script>
+    $(".modalShow").click(function () {
+        $.ajax({
+            url: $(this).attr("data-href")
+
+        }).done(function (response) {
+            $("#myModal .modal-dialog").html(response);
+        }).fail(function (XHLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+</script>
+

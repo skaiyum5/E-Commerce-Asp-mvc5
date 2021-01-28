@@ -1,0 +1,88 @@
+﻿@model  RoleListingModel
+@if (Model != null && Model.Roles != null && Model.Roles.Count() > 0)
+{
+    <div class="table-wrap mb-20">
+        <div class="table-responsive">
+            <table class="table table-active table-bordered mb-0">
+                <thead class="thead-active">
+                    <tr>
+                        <th>#</th>
+                        <th>Role</th>
+                        <th>Users</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        var i = 1;
+                        foreach (var role in Model.Roles)
+                        {
+                            <tr>
+                                <th scope="row">@i</th>
+                                <td>@role.Name</td>
+                                <td>@role.Users.Count</td>
+                                <td>@role.Description</td>
+                                <td>
+                                    <a class="btn btn-gradient-success float-lg-left m-1" href="@Url.Action("Details","Role",new { Id=role.Id})"><i class="icon-info mr-2"></i>More Details</a>
+                                    <a class="btn btn-gradient-primary float-lg-left m-1" href="@Url.Action("Action","Role",new { Id=role.Id})"><i class="glyphicon glyphicon-edit mr-2"></i>Update</a>
+                                </td>
+                            </tr>
+                            i++;
+                        }
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
+else
+{
+    <div class="alert alert-warning" role="alert">
+        Sorry! NO records exist.
+    </div>
+
+}
+
+@if (Model.Pager != null && Model.Pager.TotalItems> Model.Pager.PageSize)
+{
+    <nav class="pagination-wrap  justify-content-center mr-40 mt-15" aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item @(Model.Pager.CurrentPage<=Model.Pager.StartPage?"disabled":string.Empty)"><button type="button" class="page-link" href="@Url.Action("Listing","Role",new { searchTerm=Model.SearchTerm,pageNo=Model.Pager.CurrentPage-1})">Previous</button></li>
+            @for (int page = 1; page <= Model.Pager.TotalPages; page++)
+            {
+                <li class="page-item @(Model.Pager.CurrentPage==page?"disabled active active-violet":string.Empty)"><button type="button" class="page-link" href="@Url.Action("Listing","Role",new { searchterm = Model.SearchTerm,pageNo = page })">@page</button></li>
+            }
+            <li class="page-item @(Model.Pager.CurrentPage>=Model.Pager.EndPage?"disabled":string.Empty)"><button type="button" class="page-link" href="@Url.Action("Listing","Role",new { searchTerm=Model.SearchTerm,pageNo=Model.Pager.CurrentPage+1})">Next</button></li>
+        </ul>
+    </nav>
+}
+
+<script>
+    $(".page-link").click(function () {
+        $.ajax({
+            url: $(this).attr("href"),
+            type: 'get'
+        }).done(function (response) {
+            $('#table').html('');
+            $('#table').html(response);
+        }).fail(function (XHLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+
+
+        $(".show").click(function () {
+        $.ajax({
+            url: $(this).attr("data-href"),
+
+        }).done(function (response) {
+            $("#myModal .modal-dialog").html(response);
+        }).fail(function (XHLHttpRequest, textStatus, errorThrown) {
+            alert("FAIL");
+        });
+    });
+
+</script>
+

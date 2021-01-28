@@ -1,0 +1,70 @@
+﻿@model FashionClub.Web.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Register";
+}
+
+<h2 class="text-center m-5">@ViewBag.Title</h2>
+<div class="register-area pb-100">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 col-12 col-lg-6 col-xl-6 ml-auto mr-auto">
+                <div class="login">
+                    <div class="login-form-container">
+                        <div class="login-form">
+                            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+                                <h4 class="text-center">Create a new account</h4>
+
+                                @Html.ValidationSummary("", new { @class = "text-danger" })
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-12 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = "Enter Your First Name"  })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.LastName, new { @class = "col-md-12 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = "Enter Your Last Name"  })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Email, new { @class = "col-md-12 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = "Enter Your Email Address"  })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.Password, new { @class = "col-md-12 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = "Enter Your Password"  })
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-12 control-label" })
+                                    <div class="col-md-12">
+                                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" , @placeholder = "Confirm Password" })
+                                    </div>
+                                </div>
+
+                                <div class="button-box">
+                                    <div class=" col col-md-4">
+                                        <input type="submit" class="default-btn floatright" value="Register" />
+                                    </div>
+                                    <p class="form-group col login-toggle-btn">
+                                        @Html.ActionLink("Have an account ?", "Login")
+                                    </p>
+                                </div>
+
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

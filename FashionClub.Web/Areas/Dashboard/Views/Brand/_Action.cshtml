@@ -1,0 +1,110 @@
+﻿@model BrandActionModel
+@if (Model != null)
+{
+    <div class="modal-content">
+        <div class="modal-header bg-grey-dark-5">
+            @if (Model.ID > 0)
+            {
+                <h6 class="modal-title text-white" id="">Update Brand</h6>
+            }
+            else
+            {
+                <h6 class="modal-title text-white" id="exampleModalPopoversLabel">Add new Brand</h6>
+            }
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="actionForm">
+                <div class="form-group">
+                    <label for="Name">Brand Name</label>
+                    <input type="hidden" name="ID" value="@Model.ID" />
+                    <input type="hidden" name="SearchTerm" value="@Model.SearchTerm" />
+                    <input type="hidden" name="PageNO" value="@Model.PageNO" />
+                    <input type="text" placeholder="Brand" value="@Model.Name" id="Name" name="Name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" class="form-control" name="Description" placeholder="Brand Description">@Model.Description</textarea>
+                </div>
+                <div class="form-group">
+                    <input type="file" id="pictureAttach" class="form-control" style="padding: .2rem .75rem;">
+                </div>
+                <div id="picArea" class="form-group">
+                    @if (Model.Picture!=null && Model.PictureID>0)
+                    {
+                    <img class="img-thumbnail" src="/images/@Model.Picture.Url" alt="Alternate Text" />
+                    <input type="hidden" name="PictureID" value="@Model.Picture.ID" />
+                    }
+                </div>
+                <div class="form-group custom-control custom-checkbox">
+                    <input type="checkbox" value="true" name="Featured" class="custom-control-input" id="Featured" @(Model.Featured == true ? "checked" : string.Empty)>
+                    <label class="custom-control-label" for="Featured">Featured</label>
+                </div>
+
+                <div class="form-group">
+
+                    @if (Model.ID > 0)
+                    {
+                        <button class="actionBtn btn btn-gradient-primary btn-block mr-10" type="button">Update</button>
+                    }
+                    else
+                    {
+                        <button class="actionBtn btn btn-gradient-primary btn-block mr-10" type="button">Add</button>
+                    }
+                    <button class="btn btn-gradient-secondary btn-block mr-10" data-dismiss="modal" type="button">Cancle</button>
+                </div>
+            </form>
+        </div>
+    </div>
+}
+
+<script>
+    $('#pictureAttach').change(function () {
+        var picture = this.files;
+        var picData = new FormData();
+        picData.append('picture', picture[0]);
+        $.ajax({
+            url:'@Url.Action("UploadPictures","Shared",new { area=""})',
+            type: 'POST',
+            data:picData,
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            success: function (response) {
+                if (response.Success) {
+                    $picture = response.pictureList[0];
+                    $('#picArea').html(' ');
+                    $('#picArea').append('<img src="/images/'+ $picture.Url+ '"class="img-thumbnail"> <input type="hidden" name="PictureID" value="'+$picture.ID+'">')
+              
+                }
+            }
+        });
+    });
+
+    $(".actionBtn").click(function () {
+        $.ajax({
+            url: '@Url.Action("Action","Brand")',
+            type: "post",
+            data: $("#actionForm").serialize(),
+            beforeSend: function () {
+                $("#myModal").modal("hide");
+            },
+            success: function (response) {
+     //           swal("Success!", "You clicked the button!", {
+					//	icon : "success",
+					//	buttons: {
+					//		confirm: {
+					//			className : 'btn btn-success'
+					//		}
+					//	},
+					//});
+                $("#table").html("");
+                $("#table").html(response);
+            }
+
+        });
+  });
+
+</script>
